@@ -26,7 +26,7 @@
       })
       .state('index.products', {
         url: "/minor",
-        templateUrl: "app/minor/minor.html",
+        templateUrl: "app/products/products.html",
         data: { pageTitle: 'Example view' }
       });
 
