@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('inspinia')
+    .module('fruitWorld')
     .run(runBlock);
 
   /** @ngInject */
