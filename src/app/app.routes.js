@@ -4,33 +4,34 @@
   angular
     .module('fruitWorld')
     .config(routerConfig);
-
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
-
-      .state('index', {
-        abstract: true,
-        url: "/index",
-        templateUrl: "app/components/common/content.html"
+      .state('dashboard', {
+        url: "/dashboard",
+        templateUrl: "app/dashboard/dashboard.html",
+        controller: 'dashboardCtrl'
       })
-      .state('index.orders', {
-        url: "/main",
-        templateUrl: "app/main/main.html",
+      .state('orders', {
+        url: "/orders",
+        templateUrl: "app/orders/orders.html",
+        controller: 'orderCtrl',
         data: { pageTitle: 'Example view' }
       })
-      .state('index.purchase', {
+      .state('purchase', {
         url: "/purchase",
         templateUrl: "app/purchase/purchase.html",
+        controller:'purchaseCtrl',
         data: { pageTitle: 'Example view' }
       })
-      .state('index.products', {
-        url: "/minor",
+      .state('products', {
+        url: "/products",
         templateUrl: "app/products/products.html",
+        controller:'productCtrl',
         data: { pageTitle: 'Example view' }
       });
 
-    $urlRouterProvider.otherwise('/index/main');
+    $urlRouterProvider.otherwise('/dashboard');
   }
 
 })();
