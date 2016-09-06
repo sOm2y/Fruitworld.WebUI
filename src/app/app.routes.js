@@ -29,6 +29,12 @@
         templateUrl: "app/products/products.html",
         controller:'productCtrl',
         data: { pageTitle: 'Example view' }
+      })
+      .state('products.details', {
+        url: "/details",
+        templateUrl: "app/products/productsDetails.html",
+        controller:'productCtrl',
+        data: { pageTitle: 'Example view' }
       });
 
     $urlRouterProvider.otherwise('/dashboard');

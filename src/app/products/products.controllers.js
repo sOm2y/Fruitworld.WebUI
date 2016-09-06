@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fruitWorld')
-  .controller('productCtrl', ['$scope',function ($scope) {
+  .controller('productCtrl', ['$scope','$state',function ($scope,$state) {
      $scope.mainGridOptions = {
                 dataSource: {
                     type: "json",
@@ -14,7 +14,8 @@ angular.module('fruitWorld')
                 },
                 sortable: true,
                 pageable: true,
-                editable: true,
+                // editable: true,
+                editable: "popup",
                 toolbar: ["create"],
                 dataBound: function() {
                     this.expandRow(this.tbody.find("tr.k-master-row").first());
@@ -46,11 +47,31 @@ angular.module('fruitWorld')
                     },{
                     field: "quantity"
                     },{
-                    command: ["edit","destroy"],
+                    command: [{ name: "customEdit", text: "Edit", imageClass: "k-edit", className: "k-custom-edit", iconClass: "k-icon", click: showDetails },"destroy"],
                     title: "&nbsp;",
                     width: 250
                   }]
             };
+            function showDetails(e){
+                e.preventDefault();
+                $state.go('products.details');
+            }
+
+            $scope.$on("kendoWidgetCreated", function(event, widget){
+            if (widget === $scope.myGrid) {
+              widget.element.find(".k-custom-edit").on("click", function(e){
+                e.preventDefault();
+                var selected = $scope.myGrid.select();
+                if(selected.length == 0){
+                  alert('No record selected');
+                } else {
+                  // $scope.myGrid.editRow(selected);
+                    alert(' record selected');
+                }
+
+              });
+            }
+          });
             //
             // $scope.detailGridOptions = function(dataItem) {
             //     return {
