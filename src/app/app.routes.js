@@ -32,8 +32,12 @@
       })
       .state('products.details', {
         url: "/details",
-        templateUrl: "app/products/productsDetails.html",
-        controller:'productCtrl',
+        views:{
+            "products-details-view":{
+              templateUrl: "app/products/productsDetails.html",
+              controller:'productCtrl',
+            }
+        },
         data: { pageTitle: 'Example view' }
       });
 
