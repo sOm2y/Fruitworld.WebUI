@@ -12,44 +12,67 @@ angular.module('fruitWorld')
                     serverPaging: true,
                     serverSorting: true
                 },
+                filterable: {
+                    mode: "row"
+                },
                 sortable: true,
                 pageable: true,
                 // editable: true,
                 editable: "popup",
-                toolbar: ["create"],
+                toolbar: [{ name: "create", text: "ADD PRODUCT" }],
                 dataBound: function() {
                     this.expandRow(this.tbody.find("tr.k-master-row").first());
                 },
-                columns: [{
+                columns: [
+                    {
+                    field: "barcode",
+                    title: "Barcode",
+                    width: "120px",
+                    filterable: {
+                        cell: {
+                            showOperators: false
+                        }
+                    }
+                    },{
                     field: "name",
                     title: "Name",
-                    width: "120px"
+                    // width: "120px",
+                    filterable: {
+                        cell: {
+                            showOperators: false
+                        }
+                    }
                     },{
                     field: "category",
                     title: "Category",
-                    width: "120px"
+            
                     },{
-                    field: "weight",
-                    title: "Weight",
-                    width: "120px"
+                    field: "listPrice",
+                    title: "Price",
+                    // width: "120px"
                     },{
                     field: "gst",
                     title: "GST",
-                    width: "120px"
+                    // width: "120px"
+                    },{
+                    field: "gstInclude",
+                    title: "Gst Include",
+                    // width: "120px"
+                    },{
+                    field: "weight",
+                    title: "Weight",
+                    // width: "120px"
                     },{
                     field: "size",
-                    width: "120px"
+                    title: "Size",
+                    // width: "180px",
                     },{
-                    field: "expiration",
-                    width: "180px",
-                    type:"date",
-                    format: "{0:dd MMMM yyyy}"
-                    },{
-                    field: "quantity"
+                    field: "safeStockLevel",
+                    title:"Safe Stock Level"
                     },{
                     command: [{ name: "customEdit", text: "Edit", imageClass: "k-edit", className: "k-custom-edit", iconClass: "k-icon", click: showDetails },"destroy"],
                     title: "&nbsp;",
-                    width: 250
+                    // width: 250
                   }]
             };
             function showDetails(e){
@@ -63,7 +86,7 @@ angular.module('fruitWorld')
                 e.preventDefault();
                 var selected = $scope.myGrid.select();
                 if(selected.length == 0){
-                  alert('No record selected');
+                    alert('No record selected');
                 } else {
                   // $scope.myGrid.editRow(selected);
                     alert(' record selected');
@@ -72,29 +95,9 @@ angular.module('fruitWorld')
               });
             }
           });
-            //
-            // $scope.detailGridOptions = function(dataItem) {
-            //     return {
-            //         dataSource: {
-            //             type: "json",
-            //             transport: {
-            //                 read: "//localhost:64328/api/Products/read"
-            //             },
-            //             serverPaging: true,
-            //             serverSorting: true,
-            //             serverFiltering: true,
-            //             pageSize: 5,
-            //             filter: { field: "EmployeeID", operator: "eq", value: dataItem.EmployeeID }
-            //         },
-            //         scrollable: false,
-            //         sortable: true,
-            //         pageable: true,
-            //         columns: [
-            //         { field: "OrderID", title:"ID", width: "56px" },
-            //         { field: "ShipCountry", title:"Ship Country", width: "110px" },
-            //         { field: "ShipAddress", title:"Ship Address" },
-            //         { field: "ShipName", title: "Ship Name", width: "190px" }
-            //         ]
-            //     };
-            // };
+             $scope.onSelect = function(e) {
+                    var message = $.map(e.files, function(file) { return file.name; }).join(", ");
+                    kendoConsole.log("event :: select (" + message + ")");
+                }
+
   }]);
