@@ -56,10 +56,10 @@ angular.element(document).ready(function ($timeout) {
   // Minimalize menu when screen is less than 768px
   angular.element(window).bind("load resize", function() {
     if (angular.element(document).width() < 769) {
-      angular.element('body').addClass('body-small')
+      angular.element('body').addClass('body-small');
     } else {
-      angular.element('body').removeClass('body-small')
+      angular.element('body').removeClass('body-small');
     }
-  })
+  });
 
 });
