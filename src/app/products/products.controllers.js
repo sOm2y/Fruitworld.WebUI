@@ -178,8 +178,24 @@
         kendoConsole.log("event :: select (" + message + ")");
       };
 
-    }]).controller('productDetailsCtrl', ['$rootScope', '$state', '$scope', '$stateParams', function($rootScope, $state, $scope, $stateParams) {
+    }]).controller('productDetailsCtrl', ['$rootScope', '$state', '$scope', '$stateParams', 'fruitWorldAPIService', function($rootScope, $state, $scope, $stateParams, fruitWorldAPIService) {
       console.log($rootScope.productDataItem);
-    }]);
 
+      $scope.$on("kendoRendered", function(e) {
+        console.log("All Kendo UI Widgets are rendered.");
+        $scope.keditor.refresh();
+      });
+
+      $scope.updateProduct = function(product) {
+        fruitWorldAPIService.update({
+            section: 'products/update/' + product.productId
+          }, product)
+          .$promise.then(function(res) {
+            console.log(res);
+          }, function(err) {
+            console.log(err);
+          });
+      };
+
+    }]);
 })();
