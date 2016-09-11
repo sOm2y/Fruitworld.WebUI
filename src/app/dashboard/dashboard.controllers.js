@@ -1,7 +1,8 @@
-'use strict';
+(function() {
+  'use strict';
+  angular.module('fruitWorld')
+    .controller('dashboardCtrl', ['$scope', function($scope) {
 
-angular.module('fruitWorld')
-  .controller('dashboardCtrl', ['$scope',function ($scope) {
 
-
-  }]);
+    }]);
+})();
