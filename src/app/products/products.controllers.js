@@ -4,42 +4,55 @@
 
   angular.module('fruitWorld')
     .controller('productCtrl', ['$rootScope', '$scope', '$state', function($rootScope, $scope, $state) {
+      var crudServiceBaseUrl = "http://webapi20160908115938.azurewebsites.net/api";
       $scope.mainGridOptions = {
-        dataSource: {
+        dataSource: new kendo.data.DataSource({
           transport: {
             read: {
-              url: "http://webapi20160908115938.azurewebsites.net/api/products/read",
+              url: function(data) {
+                return "http://webapi20160908115938.azurewebsites.net/api/products/read/";
+              },
               dataType: "json",
-              type: "get"
+              type: "get",
+              processData: false
             },
             create: {
-              url: "http://webapi20160908115938.azurewebsites.net/api/products/create/",
-              type: "post"
+              url: function(data) {
+                return "http://webapi20160908115938.azurewebsites.net/api/products/create/";
+              },
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+              type: "post",
+              processData: false
             },
             update: {
               url: function(data) {
-                console.log(data);
-                return "http://webapi20160908115938.azurewebsites.net/api/products/update/" + data.models[0].productId;
+                return "http://webapi20160908115938.azurewebsites.net/api/products/update/" + data.productId;
               },
-              dataType: "json",
-              type: "put",
+              type: 'PUT',
+              dataType: 'json',
+              contentType: "application/json; charset=utf-8",
+              processData: false
             },
             destroy: {
               url: function(data) {
                 console.log(data);
-                return "http://webapi20160908115938.azurewebsites.net/api/products/delete/" + data.models[0].productId;
+                return "http://webapi20160908115938.azurewebsites.net/api/products/delete/" + data.productId;
               },
+              type: "delete",
               dataType: "json",
-              type: "delete"
-            }
+              contentType: "application/json; charset=utf-8",
+              processData: false
+            },
+            parameterMap: function(model, operation) {
+              if (operation !== "read" && model) {
+                return kendo.stringify(model);
+              }
+            },
           },
           error: function(e) {
             alert("Status: " + e.status + "; Error message: " + e.errorThrown);
           },
-          batch: true,
-          pageSize: 10,
-          serverPaging: true,
-          serverSorting: true,
           schema: {
             // data: "Data",
             // total: "Count",
@@ -73,22 +86,21 @@
               }
             }
           }
-        },
-        filterable: {
-          mode: "row"
-        },
+        }),
+        // filterable: {
+        //   mode: "row"
+        // },
         navigatable: true,
         sortable: true,
         pageable: true,
-        editable: true,
+        editable: "inline",
         toolbar: [{
           name: "create",
           text: "ADD PRODUCT"
-        }, "save"],
+        }],
         columns: [{
           field: "barcode",
           title: "Barcode",
-          width: "120px",
           filterable: {
             cell: {
               showOperators: false
@@ -136,12 +148,12 @@
         }, {
           command: [{
             name: "customEdit",
-            text: "Edit",
+            text: "More",
             imageClass: "k-edit",
             className: "k-custom-edit",
             iconClass: "k-icon",
             click: showDetails
-          }, "destroy"],
+          }, "edit", "destroy"],
           title: "&nbsp;",
           // width: 250
         }]
@@ -160,12 +172,12 @@
           .appendTo(container)
           .kendoDropDownList({
             autoBind: false,
-            dataTextField: "CategoryName",
-            dataValueField: "CategoryID",
+            dataTextField: "category",
+            dataValueField: "category",
             dataSource: {
-              type: "odata",
+              type: "json",
               transport: {
-                read: "//demos.telerik.com/kendo-ui/service/Northwind.svc/Categories"
+                read: crudServiceBaseUrl + "/products/Category"
               }
             }
           });
@@ -175,11 +187,103 @@
         var message = $.map(e.files, function(file) {
           return file.name;
         }).join(", ");
-        kendoConsole.log("event :: select (" + message + ")");
+        console.log("event :: select (" + message + ")");
       };
 
     }]).controller('productDetailsCtrl', ['$rootScope', '$state', '$scope', '$stateParams', 'fruitWorldAPIService', function($rootScope, $state, $scope, $stateParams, fruitWorldAPIService) {
       console.log($rootScope.productDataItem);
+
+      $scope.discountGridOption = {
+        dataSource: {
+          transport: {
+            read: {
+              url: "http://webapi20160908115938.azurewebsites.net/api/products/read",
+              dataType: "json",
+              type: "get"
+            },
+            create: {
+              url: "http://webapi20160908115938.azurewebsites.net/api/products/create/",
+              type: "post"
+            },
+            update: {
+              url: function(data) {
+                console.log(data);
+                return "http://webapi20160908115938.azurewebsites.net/api/products/update/" + data.models[0].productId;
+              },
+              // dataType: "json",
+              type: "put",
+            },
+            destroy: {
+              url: function(data) {
+                console.log(data);
+                return "http://webapi20160908115938.azurewebsites.net/api/products/delete/" + data.models[0].productId;
+              },
+              dataType: "json",
+              type: "delete"
+            }
+          },
+          error: function(e) {
+            alert("Status: " + e.status + "; Error message: " + e.errorThrown);
+          },
+          batch: true,
+          pageSize: 10,
+          serverPaging: true,
+          serverSorting: true,
+          schema: {
+            model: {
+
+            }
+          }
+        },
+        filterable: {
+          mode: "row"
+        },
+        navigatable: true,
+        sortable: true,
+        pageable: true,
+        editable: "inline",
+        toolbar: [{
+          name: "create",
+          text: "ADD PRODUCT"
+        }],
+        columns: [{
+          field: "group",
+          title: "Group",
+          filterable: {
+            cell: {
+              showOperators: false
+            }
+          }
+        }, {
+          field: "quantity",
+          title: "Quantity",
+          // width: "120px",
+          filterable: {
+            cell: {
+              showOperators: false
+            }
+          }
+        }, {
+          field: "discount",
+          title: "Discount",
+          format: "{0:c}"
+            // editor: categoryDropDownEditor,
+            // template: "#=Category.CategoryName#"
+        }, {
+          field: "dateStart",
+          title: "Date Start"
+            // width: "120px"
+        }, {
+          field: "dateEnd",
+          title: "Date End"
+            // width: "120px"
+        }, {
+          command: ["edit", "destroy"],
+          title: "&nbsp;",
+          // width: 250
+        }]
+      };
+
 
       $scope.$on("kendoRendered", function(e) {
         console.log("All Kendo UI Widgets are rendered.");
