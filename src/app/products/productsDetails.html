@@ -5,6 +5,7 @@
           <ul>
               <li class="k-state-active">Product Info</li>
               <li>Stock</li>
+              <li>Discount</li>
               <li>Upload</li>
               <button class="k-button k-primary" ng-click="updateProduct(productDataItem)">Update</button>
 
@@ -252,16 +253,18 @@
                   </div>
               </div>
           </div>
-          <div style="padding: 1em">
-
+          <div style="padding: 1em;">
+            <kendo-grid options="discountGridOption">
+            </kendo-grid>
           </div>
+
           <div style="padding: 1em">
               <div>
                   <h4>Upload files</h4>
                   <input name="files"
                   type="file"
                   kendo-upload
-                  k-async="{ saveUrl: 'save', removeUrl: 'remove', autoUpload: true }"
+                  k-async="{ saveUrl: 'create', removeUrl: 'remove', autoUpload: true }"
                   k-select="onSelect"
                   />
               </div>
