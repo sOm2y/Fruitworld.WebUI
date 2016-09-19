@@ -4,13 +4,13 @@
 
   angular.module('fruitWorld')
     .controller('productCtrl', ['$rootScope', '$scope', '$state', function($rootScope, $scope, $state) {
-      var crudServiceBaseUrl = "http://webapi20160908115938.azurewebsites.net/api";
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       $scope.mainGridOptions = {
         dataSource: new kendo.data.DataSource({
           transport: {
             read: {
               url: function(data) {
-                return "http://webapi20160908115938.azurewebsites.net/api/products/read/";
+                return crudServiceBaseUrl + "products/read/";
               },
               dataType: "json",
               type: "get",
@@ -18,7 +18,7 @@
             },
             create: {
               url: function(data) {
-                return "http://webapi20160908115938.azurewebsites.net/api/products/create/";
+                return crudServiceBaseUrl + "/products/create/";
               },
               dataType: "json",
               contentType: "application/json; charset=utf-8",
@@ -27,7 +27,7 @@
             },
             update: {
               url: function(data) {
-                return "http://webapi20160908115938.azurewebsites.net/api/products/update/" + data.productId;
+                return crudServiceBaseUrl + "products/update/" + data.productId;
               },
               type: 'PUT',
               dataType: 'json',
@@ -37,7 +37,7 @@
             destroy: {
               url: function(data) {
                 console.log(data);
-                return "http://webapi20160908115938.azurewebsites.net/api/products/delete/" + data.productId;
+                return crudServiceBaseUrl + "products/delete/" + data.productId;
               },
               type: "delete",
               dataType: "json",
@@ -61,7 +61,26 @@
               fields: {
                 productId: {
                   editable: false,
-                  nullable: true
+                  nullable: false
+                },
+                name: {
+                  validation: {
+                    required: true,
+                    min: 1
+                  }
+                },
+                category: {
+                  validation: {
+                    required: true,
+                    min: 1
+                  }
+                },
+                price: {
+                  type: "number",
+                  validation: {
+                    required: true,
+                    min: 1
+                  }
                 },
                 listPrice: {
                   type: "number",
@@ -71,7 +90,7 @@
                   }
                 },
                 gst: {
-                  editable: false
+                  type: "number"
                 },
                 weight: {
                   type: "number",
@@ -80,16 +99,28 @@
                     min: 1
                   }
                 },
+                size: {
+                  validation: {
+                    required: true,
+                    min: 1
+                  }
+                },
                 gstInclude: {
-                  type: "boolean"
+                  type: "boolean",
+                },
+                safeStockLevel: {
+                  type: "number",
+                  validation: {
+                    required: true,
+                  }
                 }
               }
             }
           }
         }),
-        // filterable: {
-        //   mode: "row"
-        // },
+        filterable: {
+          mode: "menu"
+        },
         navigatable: true,
         sortable: true,
         pageable: true,
@@ -197,18 +228,18 @@
         dataSource: {
           transport: {
             read: {
-              url: "http://webapi20160908115938.azurewebsites.net/api/products/read",
+              url: "http://fruitworldwebapi.azurewebsites.net/api/products/read",
               dataType: "json",
               type: "get"
             },
             create: {
-              url: "http://webapi20160908115938.azurewebsites.net/api/products/create/",
+              url: "http://fruitworldwebapi.azurewebsites.net/api/products/create/",
               type: "post"
             },
             update: {
               url: function(data) {
                 console.log(data);
-                return "http://webapi20160908115938.azurewebsites.net/api/products/update/" + data.models[0].productId;
+                return "http://fruitworldwebapi.azurewebsites.net/api/products/update/" + data.models[0].productId;
               },
               // dataType: "json",
               type: "put",
