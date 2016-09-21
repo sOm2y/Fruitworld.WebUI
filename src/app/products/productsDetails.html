@@ -264,7 +264,7 @@
                   <input name="files"
                   type="file"
                   kendo-upload
-                  k-async="{ saveUrl: 'create', removeUrl: 'remove', autoUpload: true }"
+                  k-async="{ saveUrl: 'http://webapi20160908115938.azurewebsites.net/api/image/upload/'+productDataItem.productId, removeUrl: 'remove', autoUpload: false }"
                   k-select="onSelect"
                   />
               </div>
