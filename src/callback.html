@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+</head>
+<body>
+
+  <script src="../bower_components/oidc-token-manager/dist/oidc-token-manager.js"></script>
+
+  <script>
+
+  var config = {
+    client_id: 'fruitWorld.app',
+    redirect_uri: window.location.protocol + '//' + window.location.host + 'callback.html',
+    load_user_profile:false,
+    //TODO: update the account server uri here.
+    authority: ''
+  };
+
+  var mgr = new OidcTokenManager(config);
+  mgr.processTokenCallbackAsync()
+    .then(function (callback) {
+      window.location =
+        window.location.protocol + '//' + window.location.host + '/';
+      },
+      function (err) {
+        alert('Problem Getting Token: ' + (err.message || error));
+      });
+
+  </script>
+
+</body>
+</html>
