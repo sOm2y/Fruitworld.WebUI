@@ -5,14 +5,14 @@
     .controller('appCtrl', [
       '$scope',
       '$log',
-      'tokenManger',
+      'TokenManager',
       function ($scope,
                 $log,
-                tokenManager) {
+                TokenManager) {
 
         //is this the main controller?
         $log.debug('token manager initializing.');
-        var mgr = tokenManager.getTokenManager();
+        var mgr = TokenManager.getTokenManager();
         if (mgr.expired) {
           $log.debug('token expired, redirecting for new token.')
           // TODO: uncomment this for authentication

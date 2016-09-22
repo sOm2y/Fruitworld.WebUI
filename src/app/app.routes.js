@@ -1,9 +1,13 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('fruitWorld')
-    .config(routerConfig);
+    .config(routerConfig)
+    .config([
+      '$httpProvider',
+      '$qProvider',
+      appConfig]);
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -52,4 +56,12 @@
     $urlRouterProvider.otherwise('/dashboard');
   }
 
+  function appConfig($httpProvider,
+                     $qProvider) {
+    // fix possibly unhandled rejection error
+    $qProvider.errorOnUnhandledRejections(false);
+
+    // add Token interceptor
+    $httpProvider.interceptors.push('TokenBearerInterceptor');
+  }
 })();
