@@ -193,6 +193,7 @@
       function showDetails(e) {
         e.preventDefault();
         $rootScope.productDataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        localStorage.setItem('productData', JSON.stringify($rootScope.productDataItem));
         $state.go('products.details', {
           product: JSON.stringify($rootScope.productDataItem)
         });
@@ -222,7 +223,10 @@
       };
 
     }]).controller('productDetailsCtrl', ['$rootScope', '$state', '$scope', '$stateParams', 'fruitWorldAPIService', function($rootScope, $state, $scope, $stateParams, fruitWorldAPIService) {
-      console.log($rootScope.productDataItem);
+
+      if (localStorage.getItem('productData')) {
+        $rootScope.productDataItem = JSON.parse(localStorage.getItem('productData'));
+      }
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       $scope.discountGridOption = {
         dataSource: {
@@ -366,6 +370,9 @@
             console.log(err);
           });
       };
+
+    }])
+    .controller('stockCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
 
     }]);
 })();
