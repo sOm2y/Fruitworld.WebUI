@@ -1,0 +1,7 @@
+{
+  "globalDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160922195358",
+    "jquery": "registry:dt/jquery#1.10.0+20160908203239",
+    "kendo-ui": "registry:dt/kendo-ui#2016.3.914+20160923113812"
+  }
+}
