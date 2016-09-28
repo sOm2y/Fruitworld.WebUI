@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/185abf7d046d89096093ba4eabd71952f4ca70cd/angularjs/angular-resource.d.ts",
-    "raw": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-resource.d.ts#185abf7d046d89096093ba4eabd71952f4ca70cd",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/185abf7d046d89096093ba4eabd71952f4ca70cd/angularjs/angular-resource.d.ts"
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/956494c45d5787e3e3f9d3cafcd844657540397a/angularjs/angular-resource.d.ts",
+    "raw": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-resource.d.ts#956494c45d5787e3e3f9d3cafcd844657540397a",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/956494c45d5787e3e3f9d3cafcd844657540397a/angularjs/angular-resource.d.ts"
   }
 }
