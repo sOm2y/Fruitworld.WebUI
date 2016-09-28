@@ -370,6 +370,9 @@
             console.log(err);
           });
       };
+      $scope.backToProduct = function() {
+        $state.go('products');
+      }
 
     }])
     .controller('stockCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
