@@ -149,8 +149,8 @@
         }, {
           field: "category",
           title: "Category",
-          // editor: categoryDropDownEditor,
-          // template: "#=Category.CategoryName#"
+          editor: categoryDropDownEditor,
+          template: "#=category#"
         }, {
           field: "listPrice",
           title: "Price",
@@ -203,8 +203,8 @@
           .appendTo(container)
           .kendoDropDownList({
             autoBind: false,
-            dataTextField: "category",
-            dataValueField: "category",
+            dataTextField: "name",
+            dataValueField: "name",
             dataSource: {
               type: "json",
               transport: {
