@@ -1,4 +1,5 @@
 namespace app.domain {
+  
   export interface IBranch {
     branchId: string;
     name: string;

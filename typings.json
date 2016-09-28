@@ -1,7 +1,9 @@
 {
+  "name": "fruitWorld",
   "globalDependencies": {
-    "angular": "registry:dt/angular#1.5.0+20160922195358",
-    "jquery": "registry:dt/jquery#1.10.0+20160908203239",
-    "kendo-ui": "registry:dt/kendo-ui#2016.3.914+20160923113812"
+    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#185abf7d046d89096093ba4eabd71952f4ca70cd",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#185abf7d046d89096093ba4eabd71952f4ca70cd",
+    "angular-resource": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-resource.d.ts#185abf7d046d89096093ba4eabd71952f4ca70cd",
+    "kendo-ui": "github:DefinitelyTyped/DefinitelyTyped/kendo-ui/kendo-ui.d.ts#185abf7d046d89096093ba4eabd71952f4ca70cd"
   }
 }

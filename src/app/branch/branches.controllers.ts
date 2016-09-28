@@ -61,6 +61,44 @@ namespace app.branches {
                 editable: false,
                 nullable: false
               },
+              name: {
+                validation: {
+                  required: true,
+                  min: 1,
+                }
+              },
+              phone: {
+                type: "string",
+                validation:{
+                  phone: true,
+                  required: true,
+                  min: 1
+                }},
+              email: {
+                type: "string",
+                validation: {
+                  email: true,
+                  required: false
+                }
+              },
+              fax: {
+                type:"string",
+                validation: {
+                  phone: true,
+                  required: false
+                }
+              },
+              apt: {type:"string", validation:{
+                required: false,
+                min: 1
+              }},
+              "street": "string",
+              "line1": "string",
+              "city": "string",
+              "state": "string",
+              "postCode": "string",
+              "country": "string",
+              "fullAddress": "string"
             }
           }
         }

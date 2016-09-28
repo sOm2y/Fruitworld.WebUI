@@ -6,11 +6,5 @@
         "noImplicitAny": false,
         "removeComments": true,
         "noLib": false
-    },
-		"files":[
-		],
-		"filesGlob":[
-			"./typings/**/*.ts",
-			"./src/app/**/*.ts"
-		]
+    }
 }
