@@ -20,6 +20,18 @@
           pageTitle: 'Example view'
         }
       })
+      .state('orders.details', {
+        url: "/details",
+        views: {
+          "orders-details-view": {
+            templateUrl: "app/orders/ordersDetails.html",
+            controller: 'ordersDetailsCtrl',
+          }
+        },
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
       .state('purchase', {
         url: "/purchase",
         templateUrl: "app/purchase/purchase.html",
