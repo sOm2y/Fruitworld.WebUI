@@ -23,6 +23,7 @@
               },
               dataType: "json",
               type: "post",
+              contentType: "application/json; charset=utf-8",
               processData: false
             },
             update: {
