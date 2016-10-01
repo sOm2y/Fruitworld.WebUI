@@ -32,26 +32,34 @@
                  style="width: 100%;">
         <span class="k-invalid-msg" data-for="contactName"></span></li>
       <li><!-- textbox editor for field: phone -->
-
         <label for="branchPhone" class="required">Phone</label>
-
       </li>
       <li><input type="tel" id="branchPhone"
                  class="k-input k-textbox"
                  placeholder="Phone Number"
+                 data-bind="value: phone"
                  required
                  style="width: 100%;">
-        <span class="k-invalid-msg" data-for="branchPhone"></span></li>
+        <span class="k-invalid-msg" data-for="branchPhone"></span>
+      </li>
       <li> <!-- textbox editor for field: email -->
-
+        <label for="branchFax">Fax</label>
+      </li>
+      <li><input type="tel" id="branchFax"
+                 class="k-input k-textbox"
+                 data-bind="value: fax"
+                 placeholder="Fax Number"
+                 style="width: 100%;">
+      </li>
+      <li> <!-- textbox editor for field: email -->
         <label for="branchEmail">Email</label>
-
       </li>
       <li><input type="email" id="branchEmail"
                  class="k-input k-textbox"
                  data-bind="value: email"
                  placeholder="Branch Email Address"
-                 style="width: 100%;"></li>
+                 style="width: 100%;">
+      </li>
       <li> <!-- textbox editor for field: apt -->
         <label for="branchApt">Apt(optional)</label>
       </li>

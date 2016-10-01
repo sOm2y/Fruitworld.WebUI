@@ -49,7 +49,7 @@
               if (operation !== "read" && model) {
                 return kendo.stringify(model);
               }
-            },
+            }
           },
           error: function(e) {
             alert("Status: " + e.status + "; Error message: " + e.errorThrown);
@@ -64,7 +64,7 @@
                 productId: {
                   editable: false,
                   nullable: false,
-                  defaultValue: "",
+                  defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20",
                   validation:{
                     required: true
                   }

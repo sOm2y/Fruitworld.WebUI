@@ -25,20 +25,20 @@
             contentType: "application/json; charset=utf-8",
             processData: false
           },
-
           update: {
             url: function(data) {
-              return crudServiceBaseUrl + "Branch/Update" + data.branchId;
+              console.log("Branch ID",data.branchId);
+              console.log("Update:",data);
+              return crudServiceBaseUrl + "branch/update/?id=" + data.branchId;
             },
-            type: "PUT",
             dataType: "json",
-            contentType: "application/json; charset=utf-8",
+            type: "put",
+            contentType: "application/json;charset=utf-8",
             processData: false
           },
-
           destroy: {
             url: function(data) {
-              return crudServiceBaseUrl + "Branch/Delete" + data.branchId;
+              return crudServiceBaseUrl + "branch/delete/?id=" + data.branchId;
             },
             type: "DELETE",
             dataType: "json",
@@ -61,7 +61,7 @@
               branchId: {
                 editable: false,
                 nullable: false,
-                defaultValue: ""
+                defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20"
               }
             }
           }
@@ -115,8 +115,8 @@
           field: "postCode",
           title: "Post Code"
         },*/,{
-          field: "address",
-          title: "Address"
+          field: "fullAddress",
+          title: "Full Address"
         }, {
           command: ["edit", "destroy"],
           title: "Action"
