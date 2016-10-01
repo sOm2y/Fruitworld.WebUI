@@ -1,7 +1,7 @@
-(function () {
+(function() {
   'use strict';
   angular.module('fruitWorld')
-    .controller('branchCtrl', ['$scope', function ($scope) {
+    .controller('branchCtrl', ['$scope', function($scope) {
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
 
       // DataSource
@@ -9,14 +9,14 @@
         pageSize: 20,
         transport: {
           read: {
-            url: function (data) {
+            url: function(data) {
               return crudServiceBaseUrl + "branch/read";
             },
             type: "GET",
             dataType: "json"
           },
           create: {
-            url: function (data) {
+            url: function(data) {
               return crudServiceBaseUrl + "Branch/Create";
             },
             type: "POST",
@@ -24,7 +24,7 @@
           },
 
           update: {
-            url: function (data) {
+            url: function(data) {
               return crudServiceBaseUrl + "Branch/Update" + data.branchId;
             },
             type: "PUT",
@@ -32,13 +32,13 @@
           },
 
           destroy: {
-            url: function (data) {
+            url: function(data) {
               return crudServiceBaseUrl + "Branch/Delete" + data.branchId;
             },
             type: "DELETE",
             dataType: "json"
           },
-          parameterMap: function (options, operation) {
+          parameterMap: function(options, operation) {
             if (operation !== "read" && options.models) {
               return {
                 models: kendo.stringify(options.models)
@@ -58,7 +58,7 @@
                 validation: {
                   required: true,
                   min: 1,
-                  nameValidation: function (input) {
+                  nameValidation: function(input) {
                     if (input.is("[name='Name']") && input.val().lenght > 120) {
                       input.attr("data-nameValidation-msg", "The length of the branch name should less than 120 characters");
                       return false;
@@ -89,7 +89,7 @@
                 validation: {
                   phone: true,
                   required: false,
-                  faxValidation: function (input) {
+                  faxValidation: function(input) {
                     if (input.is(["[name='Fax']"]) && input.val().lenght > 100) {
                       input.attr("data-faxValidation-msg", "The length of the fax should less than 100 characters");
                       return false;
@@ -102,7 +102,7 @@
                 validation: {
                   required: false,
                   min: 1,
-                  aptValidation: function (input) {
+                  aptValidation: function(input) {
                     if (input.is(["[name='Apartment']"]) && input.val().lenght > 50) {
                       input.attr("data-aptValidation-msg", "The length of the apartment number should less than 50 characters");
                       return false;
@@ -115,7 +115,7 @@
                 validation: {
                   required: true,
                   min: 2,
-                  streetValidation: function (input) {
+                  streetValidation: function(input) {
                     if (input.is(["[name='Street']"]) && input.val().lenght > 120) {
                       input.attr("data-streetValidation-msg", "The length of the street should less than 120 characters");
                       return false;
@@ -130,7 +130,7 @@
                 type: "string",
                 validation: {
                   required: true,
-                  cityValidation: function (input) {
+                  cityValidation: function(input) {
                     if (input.is(["[name='City']"]) && input.val().lenght > 50) {
                       input.attr("data-faxValidation-msg", "The length of the city name should less than 50 characters");
                       return false;
@@ -142,7 +142,7 @@
                 type: "string",
                 validation: {
                   required: true,
-                  stateValidation: function (input) {
+                  stateValidation: function(input) {
                     if (input.is(["[name='State']"]) && input.val().lenght > 50) {
                       input.attr("data-stateValidation-msg", "The length of the state should less than 50 characters");
                       return false;
@@ -155,7 +155,7 @@
                 validation: {
                   required: true,
                   min: 1,
-                  postCodeValidation: function (input) {
+                  postCodeValidation: function(input) {
                     if (input.is(["[name='Post Code']"]) && input.val().lenght > 50) {
                       input.attr("data-postCodeValidation-msg", "The length of the state should less than 50 characters");
                       return false;
@@ -168,7 +168,7 @@
                 validation: {
                   required: true,
                   min: 2,
-                  countryValidation: function (input) {
+                  countryValidation: function(input) {
                     if (input.is(["[name='Country']"]) && input.val().lenght > 50) {
                       input.attr("data-countryValidation-msg", "The length of the state should less than 50 characters");
                       return false;
@@ -195,18 +195,34 @@
           name: "create",
           text: "NEW Branch"
         }],
-        columns: [
-          {field: "name", title: "Branch Name"},
-          {field: "contactName", title: "Contact"},
-          {field: "phone", title: "Phone"},
-          {field: "email", title: "Email"},
-          {field: "fullAddress", title: "Address"},
-          {command: ["edit", "destroy"], title: "Action"}
-        ],
+        columns: [{
+          field: "name",
+          title: "Branch Name"
+        }, {
+          field: "contactName",
+          title: "Contact"
+        }, {
+          field: "phone",
+          title: "Phone"
+        }, {
+          field: "email",
+          title: "Email"
+        }, {
+          field: "fullAddress",
+          title: "Address"
+        }, {
+          command: ["edit", "destroy"],
+          title: "Action"
+        }],
         editable: {
           mode: "popup",
-          template: kendo.template($("#branchPopupTemplate").html())
+          template: getTemplate("template")
         }
+      };
+
+      function getTemplate(id) {
+        return document.getElementById(id);
       }
-    }])
+
+    }]);
 })();
