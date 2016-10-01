@@ -17,6 +17,11 @@ And after that go to Angular Seed Project Gulp and run those commands to get all
 `npm install`
 `bower install`
 
+##Notice: To inject kendoUI CSS, you need modified bower.json, add extra css fields to `main` property
+
+ ` "main": ["js/kendo.all.min.js","styles/kendo.common.min.css","styles/kendo.flat.min.css","styles/kendo.dataviz.flat.min.css","styles/kendo.flat.mobile.min.css"]`
+
+
 ####Gulp file is based on angular gulp generator (https://github.com/Swiip/generator-gulp-angular). There are few main task that you can do:
 
 - `gulp` or `gulp build` to build an optimized version of your application in /dist
