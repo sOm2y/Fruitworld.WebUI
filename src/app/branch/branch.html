@@ -7,12 +7,146 @@
     <kendo-grid options="branchGridOptions"></kendo-grid>
 
     <!-- branch popup template -->
-    <script type="text/x-kendo-template" id="template">
+    <script type="text/x-kendo-template" id="branchPopupTemplate">
+      <!-- textbox editor for field: name -->
       <div class="k-edit-label">
         <label for="branchName" class="required">First Name</label>
       </div>
-      <input type="text" id="branchName" class="k-input k-textbox" data-bind="value: name" placeholder="Branch Name" required style="width: 100%;">
+      <input type="text" id="branchName"
+             class="k-input k-textbox"
+             data-bind="value: name"
+             placeholder="Branch Name"
+             required
+             pattern="^[a-zA-z]{1,120}$"
+             data-message="The length of the branch name should between 1 to 120 characters."
+             style="width: 100%;">
       <span class="k-invalid-msg" data-for="branchName"></span>
+
+      <!-- textbox editor for field: contactName -->
+      <div class="k-edit-label">
+        <label for="contactName" class="required">Contact Name</label>
+      </div>
+      <input type="text" id="contactName"
+             class="k-input k-textbox"
+             placeholder="Contact Name"
+             data-bind="value: contactName"
+             required
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="contactName"></span>
+
+      <!-- textbox editor for field: phone -->
+      <div class="k-edit-label">
+        <label for="branchPhone" class="required">Phone</label>
+      </div>
+      <input type="text" id="branchPhone"
+             class="k-input k-textbox"
+             placeholder="Phone Number"
+             required
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="branchPhone"></span>
+
+      <!-- textbox editor for field: email -->
+      <div class="k-edit-label">
+        <label for="branchEmail">Email</label>
+      </div>
+      <input type="text" id="branchEmail"
+             class="k-input k-textbox"
+             data-bind="value: email"
+             placeholder="Branch Email Address"
+             style="width: 100%;">
+
+      <!-- textbox editor for field: apt -->
+      <div class="k-edit-label">
+        <label for="branchApt">Apt(optional)</label>
+      </div>
+      <input type="text" id="branchApt"
+             class="k-input k-textbox"
+             data-bind="value: apt"
+             placeholder="Apartment/Building Number"
+             style="width: 100%;">
+
+      <!-- textbox editor for field: street -->
+      <div class="k-edit-label">
+        <label for="branchStreet" class="required">Street</label>
+      </div>
+      <input type="text" id="branchStreet"
+             class="k-input k-textbox"
+             placeholder="Street"
+             required
+             data-bind="value: street"
+             pattern="^[a-zA-z]{1,120}$"
+             data-message="The length of the street should between 1 to 120 characters."
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="branchStreet"></span>
+
+      <!-- textbox editor for field: Line1 -->
+      <div class="k-edit-label">
+        <label for="branchLine1">Line(optional)</label>
+      </div>
+      <input type="text" id="branchLine1"
+             class="k-input k-textbox"
+             placeholder="Additional Line"
+             data-bind="value: line1"
+             pattern="^[a-zA-z]{1,120}$"
+             data-message="The length of the line should between 1 to 120 characters."
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="branchStreet"></span>
+
+      <!-- textbox editor for field: city -->
+      <div class="k-edit-label">
+        <label for="branchCity" class="required">City</label>
+      </div>
+      <input type="text" id="branchCity"
+             class="k-input k-textbox"
+             placeholder="City"
+             required
+             data-bind="value: city"
+             pattern="^[a-zA-z]{1,50}$"
+             data-message="The length of the city should between 1 to 50 characters."
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="branchCity"></span>
+
+      <!-- textbox editor for field: state -->
+      <div class="k-edit-label">
+        <label for="branchState" class="required">State</label>
+      </div>
+      <input type="text" id="branchState"
+             class="k-input k-textbox"
+             placeholder="State"
+             required
+             data-bind="value: state"
+             pattern="^[a-zA-z]{1,50}$"
+             data-message="The length of the state should between 1 to 50 characters."
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="branchState"></span>
+
+      <!-- textbox editor for field: country -->
+      <div class="k-edit-label">
+        <label for="branchCountry" class="required">Country</label>
+      </div>
+      <input type="text" id="branchCountry"
+             class="k-input k-textbox"
+             placeholder="Country"
+             required
+             data-bind="value: city"
+             pattern="^[a-zA-z]{1,50}$"
+             data-message="The length of the country should between 1 to 50 characters."
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="branchCountry"></span>
+
+      <!-- textbox editor for field: postCode -->
+      <div class="k-edit-label">
+        <label for="branchPostCode" class="required">Post Code</label>
+      </div>
+      <input type="text" id="branchPostCode"
+             class="k-input k-textbox"
+             placeholder="Post Code"
+             required
+             data-bind="value: postCode"
+             pattern="^[a-zA-z]{1,50}$"
+             data-message="The length of the city should between 1 to 50 characters."
+             style="width: 100%;">
+      <span class="k-invalid-msg" data-for="branchPostCode"></span>
     </script>
   </div>
 </div>

@@ -216,7 +216,7 @@
         }],
         editable: {
           mode: "popup",
-          template: getTemplate("template")
+          template: getTemplate("branchPopupTemplate")
         }
       };
 
