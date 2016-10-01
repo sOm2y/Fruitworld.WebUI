@@ -18,7 +18,7 @@
             },
             create: {
               url: function(data) {
-                return crudServiceBaseUrl + "/products/create/";
+                return crudServiceBaseUrl + "products/create/";
               },
               dataType: "json",
               contentType: "application/json; charset=utf-8",
@@ -60,6 +60,7 @@
               id: "productId",
               fields: {
                 productId: {
+                  type: "guid",
                   editable: false,
                   nullable: false
                 },
