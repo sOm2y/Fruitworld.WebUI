@@ -216,13 +216,8 @@
         }],
         editable: {
           mode: "popup",
-          template: getTemplate("branchPopupTemplate")
+          template: kendo.template($("#branchPopupTemplate").html())
         }
       };
-
-      function getTemplate(id) {
-        return document.getElementById(id);
-      }
-
     }]);
 })();
