@@ -1,58 +1,39 @@
-/**
- * Created by felixshu on 26/09/16.
- */
-namespace app.branches {
-  "use strict";
-  import transformOrigin = kendo.effects.transformOrigin;
+(function () {
+  'use strict';
+  angular.module('fruitWorld')
+    .controller('branchCtrl', ['$scope', function ($scope) {
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
 
-  interface IBranchModel {
-    title: string;
-    crudServiceBaseUrl: string;
-    dataSource: kendo.data.DataSource;
-  }
-
-  interface IBranchScope extends ng.IScope {
-    branchGridOptions: kendo.ui.GridOptions;
-  }
-
-  class BranchCtrl implements IBranchModel {
-    title: string;
-    crudServiceBaseUrl: string;
-    dataSource: kendo.data.DataSource;
-
-    static $inject = ["$state"];
-    constructor(private $scope: IBranchScope,
-                private $state: ng.ui.IState) {
-      let vm = this;
-      vm.title = "Branch List";
-      vm.crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-
-      // DataSource Configuration
-      vm.dataSource = new kendo.data.DataSource({
+      // DataSource
+      var _dataSource = new kendo.data.DataSource({
         pageSize: 20,
         transport: {
           read: {
-            url: vm.crudServiceBaseUrl + "Branch/Read",
+            url: function (data) {
+              return crudServiceBaseUrl + "branch/read";
+            },
             type: "GET",
             dataType: "json"
           },
           create: {
-            url: (data: app.domain.IBranch) => {
-              return vm.crudServiceBaseUrl + "Branch/Create";
+            url: function (data) {
+              return crudServiceBaseUrl + "Branch/Create";
             },
             type: "POST",
             dataType: "json"
           },
+
           update: {
-            url: (data: app.domain.IBranch) => {
-              return vm.crudServiceBaseUrl + "Branch/Update" + data.branchId;
+            url: function (data) {
+              return crudServiceBaseUrl + "Branch/Update" + data.branchId;
             },
             type: "PUT",
             dataType: "json"
           },
+
           destroy: {
-            url: (data: app.domain.IBranch) => {
-              return vm.crudServiceBaseUrl + "Branch/Delete" + data.branchId;
+            url: function (data) {
+              return crudServiceBaseUrl + "Branch/Delete" + data.branchId;
             },
             type: "DELETE",
             dataType: "json"
@@ -203,10 +184,11 @@ namespace app.branches {
           }
         }
       });
+      // -- DataSource END
 
-      // Grid Options
-      this.$scope.branchGridOptions = {
-        dataSource: vm.dataSource,
+      // Branch Grid Option
+      $scope.branchGridOptions = {
+        dataSource: _dataSource,
         filterable: true,
         sortable: true,
         toolbar: [{
@@ -223,12 +205,8 @@ namespace app.branches {
         ],
         editable: {
           mode: "popup",
-          template: kendo.template($("#branch_popupEditor").html())
+          template: kendo.template($("#branchPopupTemplate").html())
         }
-      };
-    }
-  }
-
-  angular.module("fruitWorld")
-    .controller("branchCtrl", BranchCtrl);
-}
+      }
+    }])
+})();
