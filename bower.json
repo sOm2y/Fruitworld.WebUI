@@ -19,7 +19,7 @@
     "pace": "~1.0.2",
     "metisMenu": "~2.0.2",
     "fontawesome": "~4.5.0",
-    "kendo-ui": "https://bower.telerik.com/bower-kendo-ui.git#~2016.2.714",
+    "kendo-ui": "https://bower.telerik.com/bower-kendo-ui.git#~2016.3.914",
     "lodash": "^4.15.0"
   },
   "devDependencies": {
