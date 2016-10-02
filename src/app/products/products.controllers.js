@@ -4,7 +4,8 @@
 
   angular.module('fruitWorld')
     .controller('productCtrl', ['$rootScope', '$scope', '$state', function($rootScope, $scope, $state) {
-      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      var crudServiceBaseUrl = "http://localhost:64328//api/";
       $scope.mainGridOptions = {
         dataSource: new kendo.data.DataSource({
           transport: {
@@ -21,8 +22,8 @@
                 return crudServiceBaseUrl + "products/create/";
               },
               dataType: "json",
-              contentType: "application/json; charset=utf-8",
               type: "post",
+              contentType: "application/json; charset=utf-8",
               processData: false
             },
             update: {
@@ -48,7 +49,7 @@
               if (operation !== "read" && model) {
                 return kendo.stringify(model);
               }
-            },
+            }
           },
           error: function(e) {
             alert("Status: " + e.status + "; Error message: " + e.errorThrown);
@@ -58,11 +59,16 @@
             // total: "Count",
             model: {
               id: "productId",
+
               fields: {
                 productId: {
                   type: "guid",
                   editable: false,
-                  nullable: false
+                  nullable: false,
+                  defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20",
+                  validation:{
+                    required: true
+                  }
                 },
                 name: {
                   validation: {
@@ -91,7 +97,8 @@
                   }
                 },
                 gst: {
-                  type: "number"
+                  type: "number",
+                  editable: false
                 },
                 weight: {
                   type: "number",
@@ -106,13 +113,14 @@
                     min: 1
                   }
                 },
-                gstInclude: {
+                incGst: {
                   type: "boolean",
+                  defaultValue: true
                 },
                 safeStockLevel: {
                   type: "number",
                   validation: {
-                    required: true,
+                    required: true
                   }
                 }
               }
@@ -162,9 +170,10 @@
           title: "GST",
           format: "{0:c}"
             // width: "120px"
-        }, {
-          field: "gstInclude",
-          title: "Gst Include",
+        },
+          {
+          field: "incGst",
+          title: "IncGST",
           // width: "120px"
         }, {
           field: "weight",

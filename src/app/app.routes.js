@@ -41,9 +41,17 @@
         views: {
           "products-details-view": {
             templateUrl: "app/products/productsDetails.html",
-            controller: 'productDetailsCtrl',
+            controller: 'productDetailsCtrl'
           }
         },
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
+      .state('branch', {
+        url: "/branch",
+        templateUrl: "app/branch/branch.html",
+        controller: 'branchCtrl',
         data: {
           pageTitle: 'Example view'
         }
