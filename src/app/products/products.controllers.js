@@ -203,6 +203,7 @@
       function showDetails(e) {
         e.preventDefault();
         $rootScope.productDataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        localStorage.setItem('productData', JSON.stringify($rootScope.productDataItem));
         $state.go('products.details', {
           product: JSON.stringify($rootScope.productDataItem)
         });
@@ -232,72 +233,93 @@
       };
 
     }]).controller('productDetailsCtrl', ['$rootScope', '$state', '$scope', '$stateParams', 'fruitWorldAPIService', function($rootScope, $state, $scope, $stateParams, fruitWorldAPIService) {
-      console.log($rootScope.productDataItem);
 
+      if (localStorage.getItem('productData')) {
+        $rootScope.productDataItem = JSON.parse(localStorage.getItem('productData'));
+      }
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       $scope.discountGridOption = {
         dataSource: {
           transport: {
             read: {
-              url: "http://fruitworldwebapi.azurewebsites.net/api/products/read",
+              url: function(data) {
+                return crudServiceBaseUrl + "discount/read/" + $rootScope.productDataItem.productId;
+              },
               dataType: "json",
-              type: "get"
+              type: "get",
+              processData: false
             },
             create: {
-              url: "http://fruitworldwebapi.azurewebsites.net/api/products/create/",
-              type: "post"
+              url: function(data) {
+                return crudServiceBaseUrl + "/discount/create/" + $rootScope.productDataItem.productId;
+              },
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+              type: "post",
+              processData: false
             },
             update: {
               url: function(data) {
-                console.log(data);
-                return "http://fruitworldwebapi.azurewebsites.net/api/products/update/" + data.models[0].productId;
+                return crudServiceBaseUrl + "discount/update/" + data.discountId;
               },
-              // dataType: "json",
-              type: "put",
+              type: 'PUT',
+              dataType: 'json',
+              contentType: "application/json; charset=utf-8",
+              processData: false
             },
             destroy: {
               url: function(data) {
                 console.log(data);
-                return "http://webapi20160908115938.azurewebsites.net/api/products/delete/" + data.models[0].productId;
+                return crudServiceBaseUrl + "discount/delete/" + data.discountId;
               },
+              type: "delete",
               dataType: "json",
-              type: "delete"
+              contentType: "application/json; charset=utf-8",
+              processData: false
+            },
+            parameterMap: function(model, operation) {
+              if (operation !== "read" && model) {
+                return kendo.stringify(model);
+              }
             }
           },
           error: function(e) {
             alert("Status: " + e.status + "; Error message: " + e.errorThrown);
           },
-          batch: true,
-          pageSize: 10,
-          serverPaging: true,
-          serverSorting: true,
           schema: {
             model: {
-
+              id: "productId",
+              // dataStart: {
+              //   type: 'date'
+              // },
+              // dateEnd: {
+              //   type: 'date'
+              // }
             }
           }
         },
         filterable: {
-          mode: "row"
+          mode: "menu"
         },
         navigatable: true,
         sortable: true,
         pageable: true,
-        editable: "inline",
         toolbar: [{
           name: "create",
-          text: "ADD PRODUCT"
+          text: "ADD DISCOUNT"
         }],
+        editable: 'inline',
         columns: [{
-          field: "group",
-          title: "Group",
+          field: "discountValue",
+          title: "GrodiscountValueup",
           filterable: {
             cell: {
               showOperators: false
             }
           }
         }, {
-          field: "quantity",
-          title: "Quantity",
+          field: "quantityFrom",
+          title: "quantityFrom",
           // width: "120px",
           filterable: {
             cell: {
@@ -305,18 +327,31 @@
             }
           }
         }, {
-          field: "discount",
-          title: "Discount",
-          format: "{0:c}"
-            // editor: categoryDropDownEditor,
-            // template: "#=Category.CategoryName#"
+          field: "quantityTo",
+          title: "quantityTo",
+          // width: "120px",
+          filterable: {
+            cell: {
+              showOperators: false
+            }
+          }
         }, {
-          field: "dateStart",
-          title: "Date Start"
+          field: "vipLevel",
+          title: "vipLevel",
+          // format: "{0:c}"
+          // editor: categoryDropDownEditor,
+          // template: "#=Category.CategoryName#"
+        }, {
+          field: "dataStart",
+          title: "Date Start",
+          format: "{0:yyyy-MM-dd HH:mm}",
+          editor: dateTimeEditor
             // width: "120px"
         }, {
           field: "dateEnd",
-          title: "Date End"
+          title: "Date End",
+          format: "{0:yyyy-MM-dd HH:mm}",
+          editor: dateTimeEditor
             // width: "120px"
         }, {
           command: ["edit", "destroy"],
@@ -325,7 +360,11 @@
         }]
       };
 
-
+      function dateTimeEditor(container, options) {
+        $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
+          .appendTo(container)
+          .kendoDateTimePicker({});
+      }
       $scope.$on("kendoRendered", function(e) {
         console.log("All Kendo UI Widgets are rendered.");
         $scope.keditor.refresh();
@@ -341,6 +380,12 @@
             console.log(err);
           });
       };
+      $scope.backToProduct = function() {
+        $state.go('products');
+      }
+
+    }])
+    .controller('stockCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
 
     }]);
 })();
