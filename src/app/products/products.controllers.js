@@ -4,8 +4,8 @@
 
   angular.module('fruitWorld')
     .controller('productCtrl', ['$rootScope', '$scope', '$state', function($rootScope, $scope, $state) {
-      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      var crudServiceBaseUrl = "http://localhost:64328//api/";
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      // var crudServiceBaseUrl = "http://localhost:64328//api/";
       $scope.mainGridOptions = {
         dataSource: new kendo.data.DataSource({
           transport: {
@@ -66,7 +66,7 @@
                   editable: false,
                   nullable: false,
                   defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20",
-                  validation:{
+                  validation: {
                     required: true
                   }
                 },
@@ -170,8 +170,7 @@
           title: "GST",
           format: "{0:c}"
             // width: "120px"
-        },
-          {
+        }, {
           field: "incGst",
           title: "IncGST",
           // width: "120px"
