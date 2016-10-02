@@ -1,24 +1,26 @@
-(function() {
-  'use strict';
-  angular.module('fruitWorld')
-    .controller('branchCtrl', ['$scope', function($scope) {
+(function(){
+    'use strict';
+
+    angular.module('fruitWorld')
+    .controller('parcelCtrl',['$scope',function($scope){
       //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       var crudServiceBaseUrl = "http://localhost:64328//api/";
-      // DataSource
+
+      // Parcel DataSource
       var _dataSource = new kendo.data.DataSource({
         pageSize: 20,
-        transport: {
-          read: {
-            url: function(data) {
-              return crudServiceBaseUrl + "branch/read";
+        transport:{
+          read:{
+            url: function (data) {
+              return crudServiceBaseUrl + 'parcel/read';
             },
-            type: "GET",
+            type: 'get',
             dataType: "json"
           },
           create: {
             url: function(data) {
-              console.log("Branch Create:",data);
-              return crudServiceBaseUrl + "branch/create";
+              console.log("Parcel Create:",data);
+              return crudServiceBaseUrl + "parcel/create";
             },
             dataType: "json",
             type: "post",
@@ -27,9 +29,9 @@
           },
           update: {
             url: function(data) {
-              console.log("Branch ID",data.branchId);
+              console.log("Parcel ID",data.Id);
               console.log("Update:",data);
-              return crudServiceBaseUrl + "branch/update/?id=" + data.branchId;
+              return crudServiceBaseUrl + "parcel/update/?id=" + data.Id;
             },
             dataType: "json",
             type: "put",
@@ -38,10 +40,10 @@
           },
           destroy: {
             url: function(data) {
-              return crudServiceBaseUrl + "branch/delete/?id=" + data.branchId;
+              return crudServiceBaseUrl + "parcel/delete/?id=" + data.Id;
             },
-            type: "DELETE",
             dataType: "json",
+            type: "delete",
             contentType: "application/json; charset=utf-8",
             processData: false
           },
@@ -56,77 +58,66 @@
         },
         schema: {
           model: {
-            id: "branchId",
+            id: "Id",
             fields: {
-              branchId: {
+              boxId: {
                 editable: false,
                 nullable: false,
                 defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20"
+              },
+              incGst:{
+                defaultValue: true
               }
             }
           }
         }
       });
-      // -- DataSource END
+      // Parcel DataSource END
 
-      // Branch Grid Option
-      $scope.branchGridOptions = {
+      // Parcel Grid Options
+      $scope.parcelGridOptions = {
         dataSource: _dataSource,
         filterable: true,
         sortable: true,
         pageable: true,
         toolbar: [{
           name: "create",
-          text: "NEW Branch"
+          text: "NEW Box"
         }],
         columns: [{
-          field: "name",
-          title: "Branch Name"
+          field: "trackingNum",
+          title: "Track Number"
+        },{
+          field: "orderId",
+          title: "Order"
+        },,{
+          field: "deliveryCompany",
+          title: "Delivery Company"
         }, {
-          field: "contactName",
-          title: "Contact"
+          field: "deliveryDate",
+          title: "Delivery Date"
         }, {
-          field: "phone",
-          title: "Phone"
+          field: "eta",
+          title: "ETA"
         }, {
-          field: "email",
-          title: "Email"
+          field: "weight",
+          title: "Weight",
+          format: "#.00"
         }, {
-          field: "fax",
-          title: "Fax"
-        }/*,{
-          field: "apt",
-          title: "Apt (optional)"
-        },{
-          field: "street",
-          title: "Street"
-        },{
-          field: "line1",
-          title: "Street Line"
-        },{
-          field: "city",
-          title: "City"
-        },{
-          field: "state",
-          title: "State"
-        },{
-          field: "country",
-          title: "Country"
-        },{
-          field: "postCode",
-          title: "Post Code"
-        },*/,{
-          field: "fullAddress",
-          title: "Full Address"
+          field: "rate",
+          title: "Rate",
+          format:"{0:c}"
         }, {
+          field: "freight",
+          title: "Freight"
+        },
+        {
           command: ["edit", "destroy"],
           title: "Action"
         }],
         editable: {
-          mode: "popup",
-          template: kendo.template($("#branchPopupTemplate").html())
+          mode: "inline"
         }
       };
-
     }]);
 })();
