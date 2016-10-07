@@ -1,25 +1,25 @@
-(function(){
-    'use strict';
-
-    angular.module('fruitWorld')
-    .controller('parcelCtrl',['$scope',function($scope){
+(function() {
+  'use strict';
+  angular.module('fruitWorld').controller('parcelCtrl', [
+    '$scope',
+    'uuid2',
+    function($scope, uuid2) {
       //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      var crudServiceBaseUrl = "http://localhost:64328//api/";
+      var crudServiceBaseUrl = "http://localhost:64328/api/";
 
-      // Parcel DataSource
       var _dataSource = new kendo.data.DataSource({
         pageSize: 20,
-        transport:{
-          read:{
-            url: function (data) {
-              return crudServiceBaseUrl + 'parcel/read';
+        transport: {
+          read: {
+            url: function(data) {
+              return crudServiceBaseUrl + "parcel/read";
             },
-            type: 'get',
+            type: "GET",
             dataType: "json"
           },
           create: {
             url: function(data) {
-              console.log("Parcel Create:",data);
+              console.log("Parcel Create:", data);
               return crudServiceBaseUrl + "parcel/create";
             },
             dataType: "json",
@@ -29,9 +29,9 @@
           },
           update: {
             url: function(data) {
-              console.log("Parcel ID",data.Id);
-              console.log("Update:",data);
-              return crudServiceBaseUrl + "parcel/update/?id=" + data.Id;
+              console.log("Parcel ID", data.parcelId);
+              console.log("Update:", data);
+              return crudServiceBaseUrl + "parcel/update/?id=" + data.parcelId;
             },
             dataType: "json",
             type: "put",
@@ -40,10 +40,10 @@
           },
           destroy: {
             url: function(data) {
-              return crudServiceBaseUrl + "parcel/delete/?id=" + data.Id;
+              return crudServiceBaseUrl + "parcel/delete/?id=" + data.parcelId;
             },
+            type: "DELETE",
             dataType: "json",
-            type: "delete",
             contentType: "application/json; charset=utf-8",
             processData: false
           },
@@ -58,21 +58,47 @@
         },
         schema: {
           model: {
-            id: "Id",
+            id: "parcelId",
+
             fields: {
-              boxId: {
-                editable: false,
+              parcelId: {
+                eitable: false,
                 nullable: false,
-                defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20"
+                defaultValue: uuid2.newuuid(),
+                validation: {
+                  required: true
+                }
               },
-              incGst:{
-                defaultValue: true
+              trackingNum: {
+                nullable: false,
+                validation: {
+                  required: true
+                }
+              },
+              deliveryCompany: {
+                nullable: false,
+                validation: {
+                  required: true
+                }
+              },
+              deliveryDate: {
+                type: "date"
+              },
+              eta: {
+                type: "date"
+              },
+              weight: {
+                validation: {
+                  min: 1
+                }
+              },
+              freight: {
+                editable: false
               }
             }
           }
         }
       });
-      // Parcel DataSource END
 
       // Parcel Grid Options
       $scope.parcelGridOptions = {
@@ -80,44 +106,109 @@
         filterable: true,
         sortable: true,
         pageable: true,
-        toolbar: [{
-          name: "create",
-          text: "NEW Box"
-        }],
-        columns: [{
-          field: "trackingNum",
-          title: "Track Number"
-        },{
-          field: "orderId",
-          title: "Order"
-        },,{
-          field: "deliveryCompany",
-          title: "Delivery Company"
-        }, {
-          field: "deliveryDate",
-          title: "Delivery Date"
-        }, {
-          field: "eta",
-          title: "ETA"
-        }, {
-          field: "weight",
-          title: "Weight",
-          format: "#.00"
-        }, {
-          field: "rate",
-          title: "Rate",
-          format:"{0:c}"
-        }, {
-          field: "freight",
-          title: "Freight"
-        },
-        {
-          command: ["edit", "destroy"],
-          title: "Action"
-        }],
-        editable: {
-          mode: "inline"
-        }
+        editable: "inline",
+        toolbar: [
+          {
+            name: "create",
+            text: "NEW Parcel"
+          }
+        ],
+        columns: [
+          {
+            field: "trackingNum",
+            title: "Track Number"
+          }, {
+            field: "order",
+            title: "Order",
+            editor: orderComboBoxEditor,
+            template: "#= order.trackId #"
+          }, {
+            field: "deliveryCompany",
+            title: "Delivery Company",
+            editor: deliveryCompanyComboBoxEditor,
+            template: "#=deliveryCompany#"
+          }, {
+            field: "deliveryDate",
+            title: "Delivery Date",
+            template: "#= kendo.toString(deliveryDate,'dd/MM/yyyy') #"
+          }, {
+            field: "eta",
+            title: "ETA",
+            template: "#= kendo.toString(eta, 'dd/MM/yyyy') #"
+          }, {
+            field: "weight",
+            title: "Weight"
+          }, {
+            field: "rate",
+            title: "Rate",
+            editor: deliveryRateComboBoxEditor,
+            template: "#=rate#",
+            format: "{0:c}"
+          }, {
+            field: "freight",
+            title: "Freight",
+            template: "#= kendo.toString(weight*rate, '0.00') #",
+            format: "#.00"
+          }, {
+            command: [
+              "edit", "destroy"
+            ],
+            title: "Action"
+          }
+        ]
       };
-    }]);
+
+      // Order Track ID ComboBox Editor
+      function orderComboBoxEditor(container, options) {
+        $('<input required name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+          autoBind: false,
+          suggest: true,
+          dataTextField: "trackId",
+          dataValueField: "orderId",
+          dataSource: {
+            type: "json",
+            transport: {
+              read: crudServiceBaseUrl + "/parcel/order"
+            }
+          }
+        });
+      }
+
+      // Delivery Company ComboBox editor
+      function deliveryCompanyComboBoxEditor(container, options) {
+        $('<input id="deliverycompany" required name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+          autoBind: false,
+          suggest: true,
+          filter: "contains",
+          dataTextField: "companyName",
+          dataValueField: "companyName",
+          dataSource: {
+            type: "json",
+            transport: {
+              read: crudServiceBaseUrl + "/parcel/deliverycompany"
+            }
+          }
+        });
+      }
+
+      // Delivery Company Rate ComboBox editor
+      function deliveryRateComboBoxEditor(container, options) {
+        $('<input required name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+          autoBind: false,
+          suggest: true,
+          filter: "contains",
+          index: 0,
+          cascadeFrom:"deliverycompany",
+          dataTextField: "deliveryRate",
+          dataValueField: "deliveryRate",
+          dataSource: {
+            type: "json",
+            transport: {
+              read: crudServiceBaseUrl + "/parcel/deliverycompany"
+            }
+          }
+        });
+      }
+    }
+  ]);
 })();

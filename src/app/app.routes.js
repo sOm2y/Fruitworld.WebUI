@@ -55,6 +55,22 @@
         data: {
           pageTitle: 'Example view'
         }
+      })
+      .state('boxes', {
+        url: "/boxes",
+        templateUrl: "app/boxes/boxes.html",
+        controller: 'boxCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
+      .state('parcel', {
+        url: "/parcel",
+        templateUrl: "app/parcel/parcel.html",
+        controller: 'parcelCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
       });
 
     $urlRouterProvider.otherwise('/dashboard');

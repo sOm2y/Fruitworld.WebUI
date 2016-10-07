@@ -130,7 +130,7 @@
           transport:{
             read:{
               url: function(data){
-                return crudServiceBaseUrl + "boxContent/read/?boxId=" + dataItem.boxId;
+                return crudServiceBaseUrl + "boxContent/read/?boxId=" + data.boxId;
               },
               type:'get'
             },

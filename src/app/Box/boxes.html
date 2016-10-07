@@ -8,7 +8,18 @@
       <div class="ibox">
         <div class="ibox-content">
           <!-- grid element -->
-          <kendo-grid options="boxGridOptions"></kendo-grid>
+          <kendo-grid options="boxGridOptions">
+            <div k-detail-template>
+              <kendo-tabstrip>
+                <ul>
+                  <li class="k-state-active">Box Contents</li>
+                </ul>
+                <div>
+                  <div kendo-grid k-options="boxContentGridOptions(dataItem)"></div>
+                </div>
+              </kendo-tabstrip>
+            </div>
+          </kendo-grid>
         </div>
       </div>
     </div>

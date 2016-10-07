@@ -3,9 +3,9 @@
   'use strict';
 
   angular.module('fruitWorld')
-    .controller('productCtrl', ['$rootScope', '$scope', '$state', function($rootScope, $scope, $state) {
+    .controller('productCtrl', ['$rootScope', '$scope', '$state','uuid2', function($rootScope, $scope, $state, uuid2) {
       //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      var crudServiceBaseUrl = "http://localhost:64328//api/";
+      var crudServiceBaseUrl = "http://localhost:64328/api/";
       $scope.mainGridOptions = {
         dataSource: new kendo.data.DataSource({
           transport: {
@@ -59,13 +59,12 @@
             // total: "Count",
             model: {
               id: "productId",
-
               fields: {
                 productId: {
                   type: "guid",
                   editable: false,
                   nullable: false,
-                  defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20",
+                  defaultValue: uuid2.newuuid(),
                   validation:{
                     required: true
                   }
