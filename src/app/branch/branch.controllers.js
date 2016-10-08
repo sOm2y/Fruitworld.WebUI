@@ -1,9 +1,9 @@
 (function() {
   'use strict';
   angular.module('fruitWorld')
-    .controller('branchCtrl', ['$scope', function($scope) {
+    .controller('branchCtrl', ['$scope', 'uuid2',function($scope,uuid2) {
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      // var crudServiceBaseUrl = "http://localhost:64328//api/";
+      //var crudServiceBaseUrl = "http://localhost:64328/api/";
       // DataSource
       var _dataSource = new kendo.data.DataSource({
         pageSize: 20,
@@ -61,7 +61,7 @@
               branchId: {
                 editable: false,
                 nullable: false,
-                defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20"
+                defaultValue: uuid2.newuuid()
               }
             }
           }
@@ -74,6 +74,7 @@
         dataSource: _dataSource,
         filterable: true,
         sortable: true,
+        pageable: true,
         toolbar: [{
           name: "create",
           text: "NEW Branch"

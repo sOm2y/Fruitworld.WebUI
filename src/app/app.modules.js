@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('fruitWorld', ['kendo.directives', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngResource', 'ui.router', 'ui.bootstrap', 'app.services']);
+    .module('fruitWorld', ['kendo.directives', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'angularUUID2','ngMessages', 'ngAria', 'ngResource', 'ui.router', 'ui.bootstrap', 'app.services']);
 
 })();
