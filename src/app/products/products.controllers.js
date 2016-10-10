@@ -4,8 +4,8 @@
 
   angular.module('fruitWorld')
     .controller('productCtrl', ['$rootScope', '$scope', '$state','uuid2', function($rootScope, $scope, $state, uuid2) {
-      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      var crudServiceBaseUrl = "http://localhost:64328/api/";
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      //var crudServiceBaseUrl = "http://localhost:64328/api/";
       $scope.mainGridOptions = {
         dataSource: new kendo.data.DataSource({
           transport: {
@@ -173,10 +173,12 @@
           {
           field: "incGst",
           title: "IncGST",
+          template:"#=incGst? \"<span class='label label-primary'>Yes</span>\" :  \"<span class='label label-danger'>No</span>\"#"
           // width: "120px"
         }, {
           field: "weight",
           title: "Weight",
+          template: "#=kendo.toString(weight,'n2')+weightUnit#"
           // width: "120px"
         }, {
           field: "size",

@@ -58,7 +58,7 @@
       })
       .state('boxes', {
         url: "/boxes",
-        templateUrl: "app/boxes/boxes.html",
+        templateUrl: "app/box/boxes.html",
         controller: 'boxCtrl',
         data: {
           pageTitle: 'Example view'
