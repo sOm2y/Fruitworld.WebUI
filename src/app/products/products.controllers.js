@@ -3,7 +3,8 @@
   'use strict';
 
   angular.module('fruitWorld')
-    .controller('productCtrl', ['$rootScope', '$scope', '$state', 'uuid2', function($rootScope, $scope, $state, uuid2) {
+
+    .controller('productCtrl', ['shoppingCartService','$rootScope', '$scope', '$state', 'uuid2', function(shoppingCartService,$rootScope, $scope, $state, uuid2) {
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       //var crudServiceBaseUrl = "http://localhost:64328/api/";
 
@@ -139,6 +140,15 @@
           text: "ADD PRODUCT"
         }],
         columns: [{
+          command: [{
+            name: "customEdit",
+            text: "Add",
+            imageClass: "k-add",
+            className: "k-custom-add",
+            iconClass: "k-icon",
+            click: addToCart
+          }],
+        },{
           field: "barcode",
           title: "Barcode",
           filterable: {
@@ -200,6 +210,12 @@
         $state.go('products.details', {
           product: JSON.stringify($rootScope.productDataItem)
         });
+      }
+
+      function addToCart(e){
+        e.preventDefault();
+        shoppingCartService.addProduct(this.dataItem($(e.currentTarget).closest("tr")));
+        //TODO: if add same id of a product twice should add a 'x2' text instead of displaying duplicate product
       }
 
       function categoryDropDownEditor(container, options) {
