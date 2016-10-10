@@ -226,7 +226,7 @@
             }, {
               field: "weight",
               title: "Weight",
-              template: "#= kendo.toString(weight,'0.00') + weightUnit #"
+              template: "#= kendo.toString(weight,'0.00')#KG"
             }, {
               command: [
                 "edit", "destroy"
@@ -234,8 +234,8 @@
               title: "Action"
             }
           ]
-        }
-      }
+        };
+      };
 
       //Product ComboBox
       function productComboBoxEditor(container, options) {
