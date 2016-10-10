@@ -178,7 +178,7 @@
         }, {
           field: "weight",
           title: "Weight",
-          template: "#=kendo.toString(weight,'n2')+weightUnit#"
+          template: "#=kendo.toString(weight,'n2')#KG"
           // width: "120px"
         }, {
           field: "size",
@@ -213,8 +213,10 @@
       function categoryDropDownEditor(container, options) {
         $('<input required name="' + options.field + '"/>')
           .appendTo(container)
-          .kendoDropDownList({
+          .kendoComboBox({
             autoBind: false,
+            suggest: true,
+            filter: "contains",
             dataTextField: "name",
             dataValueField: "name",
             dataSource: {

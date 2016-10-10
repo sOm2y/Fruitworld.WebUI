@@ -136,7 +136,7 @@
         return {
           dataSource: {
             save: function(e){
-              $("#boxContentId").data("kendoGrid").dataSource.read();
+              $("#boxContentGrid").data("kendoGrid").dataSource.refresh();
             },
             pageSize: 10,
             transport: {
@@ -245,7 +245,6 @@
           filter: "contains",
           dataTextField: "name",
           dataValueField: "productId",
-          index:0,
           dataSource: {
             type: "json",
             transport: {
