@@ -3,7 +3,8 @@
   angular.module('fruitWorld')
     .controller('branchCtrl', ['$scope', 'uuid2',function($scope,uuid2) {
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      //var crudServiceBaseUrl = "http://localhost:64328/api/";
+      // var crudServiceBaseUrl = "http://localhost:64328/api/";
+
       // DataSource
       var _dataSource = new kendo.data.DataSource({
         pageSize: 20,
@@ -17,7 +18,7 @@
           },
           create: {
             url: function(data) {
-              console.log("Branch Create:", data);
+              console.log("Branch Create:",data);
               return crudServiceBaseUrl + "branch/create";
             },
             dataType: "json",
@@ -27,8 +28,8 @@
           },
           update: {
             url: function(data) {
-              console.log("Branch ID", data.branchId);
-              console.log("Update:", data);
+              console.log("Branch ID",data.branchId);
+              console.log("Update:",data);
               return crudServiceBaseUrl + "branch/update/?id=" + data.branchId;
             },
             dataType: "json",
@@ -80,51 +81,48 @@
           text: "NEW Branch"
         }],
         columns: [{
-            field: "name",
-            title: "Branch Name"
-          }, {
-            field: "contactName",
-            title: "Contact"
-          }, {
-            field: "phone",
-            title: "Phone"
-          }, {
-            field: "email",
-            title: "Email"
-          }, {
-            field: "fax",
-            title: "Fax"
-          },
-          /*,{
-            field: "apt",
-            title: "Apt (optional)"
-          },{
-            field: "street",
-            title: "Street"
-          },{
-            field: "line1",
-            title: "Street Line"
-          },{
-            field: "city",
-            title: "City"
-          },{
-            field: "state",
-            title: "State"
-          },{
-            field: "country",
-            title: "Country"
-          },{
-            field: "postCode",
-            title: "Post Code"
-          },*/
-          {
-            field: "fullAddress",
-            title: "Full Address"
-          }, {
-            command: ["edit", "destroy"],
-            title: "Action"
-          }
-        ],
+          field: "name",
+          title: "Branch Name"
+        }, {
+          field: "contactName",
+          title: "Contact"
+        }, {
+          field: "phone",
+          title: "Phone"
+        }, {
+          field: "email",
+          title: "Email"
+        }, {
+          field: "fax",
+          title: "Fax"
+        }/*,{
+          field: "apt",
+          title: "Apt (optional)"
+        },{
+          field: "street",
+          title: "Street"
+        },{
+          field: "line1",
+          title: "Street Line"
+        },{
+          field: "city",
+          title: "City"
+        },{
+          field: "state",
+          title: "State"
+        },{
+          field: "country",
+          title: "Country"
+        },{
+          field: "postCode",
+          title: "Post Code"
+        },*/,{
+          field: "fullAddress",
+          title: "Full Address"
+        }, {
+          command: ["edit", "destroy"],
+          title: "Action"
+        }],
         editable: {
           mode: "popup",
           template: kendo.template($("#branchPopupTemplate").html())

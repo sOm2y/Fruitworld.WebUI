@@ -4,8 +4,8 @@
     '$scope',
     'uuid2',
     function($scope, uuid2) {
-      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      var crudServiceBaseUrl = "http://localhost:64328/api/";
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      //var crudServiceBaseUrl = "http://localhost:64328/api/";
 
       var _dataSource = new kendo.data.DataSource({
         pageSize: 20,
@@ -106,6 +106,7 @@
         filterable: true,
         sortable: true,
         pageable: true,
+        groupable: true,
         editable: "inline",
         toolbar: [
           {
@@ -121,7 +122,7 @@
             field: "order",
             title: "Order",
             editor: orderComboBoxEditor,
-            template: "#= order.trackId #"
+            template: "#= order.orderId #"
           }, {
             field: "deliveryCompany",
             title: "Delivery Company",
@@ -137,18 +138,17 @@
             template: "#= kendo.toString(eta, 'dd/MM/yyyy') #"
           }, {
             field: "weight",
-            title: "Weight"
+            title: "Weight",
+            template: "#=kendo.toString(weight, 'n2')#KG"
           }, {
             field: "rate",
             title: "Rate",
             editor: deliveryRateComboBoxEditor,
-            template: "#=rate#",
-            format: "{0:c}"
+            template: "#=kendo.toString(rate, 'c2')#",
           }, {
             field: "freight",
             title: "Freight",
-            template: "#= kendo.toString(weight*rate, '0.00') #",
-            format: "#.00"
+            template: "#= kendo.toString(weight*rate, 'c2') #"
           }, {
             command: [
               "edit", "destroy"
@@ -163,7 +163,7 @@
         $('<input required name="' + options.field + '"/>').appendTo(container).kendoComboBox({
           autoBind: false,
           suggest: true,
-          dataTextField: "trackId",
+          dataTextField: "orderId",
           dataValueField: "orderId",
           dataSource: {
             type: "json",
