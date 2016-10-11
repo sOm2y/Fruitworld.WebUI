@@ -71,6 +71,14 @@
         data: {
           pageTitle: 'Example view'
         }
+      })
+      .state('shoppingCart', {
+        url: "/cart",
+        templateUrl: "app/shoppingCart/shoppingCart.html",
+        controller: 'shoppingCartCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
       });
 
     $urlRouterProvider.otherwise('/dashboard');
