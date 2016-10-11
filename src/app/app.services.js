@@ -107,8 +107,6 @@
       }
     ])
     .service('shoppingCartService',['$rootScope',function($rootScope){
-
-
       this.addProduct = function(product){
         var shoppingCart = [];
         shoppingCart.push(product);
