@@ -106,32 +106,45 @@
         };
       }
     ])
-    .service('shoppingCartService',['$rootScope',function($rootScope){
-      this.addProduct = function(product){
+    .service('shoppingCartService', ['$rootScope', function($rootScope) {
+      this.addProduct = function(product) {
         var shoppingCart = [];
         shoppingCart.push(product);
         this.updateShoppingCart(shoppingCart);
       };
 
-      this.updateShoppingCart = function(newShoppingCart){
-        if(localStorage.getItem('shoppingCart')){
+      this.updateShoppingCart = function(newShoppingCart) {
+        if (localStorage.getItem('shoppingCart')) {
           var oldShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
-          _.forEach(newShoppingCart,function(newProduct){
+          _.forEach(newShoppingCart, function(newProduct) {
             oldShoppingCart.push(newProduct);
           });
-          localStorage.setItem('shoppingCart',JSON.stringify(oldShoppingCart));
-        }else{
-            localStorage.setItem('shoppingCart',JSON.stringify(newShoppingCart));
+          localStorage.setItem('shoppingCart', JSON.stringify(oldShoppingCart));
+        } else {
+          localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart));
         }
       };
 
-      this.getShoppingCart = function(){
-        if(localStorage.getItem('shoppingCart')){
+      this.getShoppingCart = function() {
+        if (localStorage.getItem('shoppingCart')) {
           return JSON.parse(localStorage.getItem('shoppingCart'));
-        }else{
+        } else {
           //error handling should be triggered.
           return [];
         }
+      };
+
+      this.countDuplicateProducts = function(productsInCart) {
+        var result = _(productsInCart)
+          .groupBy('productId')
+          .map(function(products, productId) {
+            return {
+              productId: productId,
+              product:products[0],
+              count: products.length
+            };
+          }).value();
+          return result;
       };
 
     }]);
