@@ -5,9 +5,9 @@
   "use strict";
 
   angular.module('fruitWorld')
-  .controller('boxCtrl',['$scope', function ($scope) {
-    //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-    var crudServiceBaseUrl = "http://localhost:64328//api/";
+  .controller('boxCtrl',['$scope','uuid2',function ($scope,uuid2) {
+    var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+    // var crudServiceBaseUrl = "http://localhost:64328//api/";
 
     // Box DataSource
     var _dataSource = new kendo.data.DataSource({
@@ -66,7 +66,7 @@
             boxId: {
               editable: false,
               nullable: false,
-              defaultValue: "D4780DE7-B134-4828-92E0-81CC9F7B8A20"
+              defaultValue: uuid2.newuuid()
             },
             incGst:{
               defaultValue: true
@@ -126,13 +126,14 @@
     $scope.boxContentGridOptions = function(dataItem){
       return {
         dataSource:{
-          type: 'json',
           transport:{
             read:{
               url: function(data){
-                return crudServiceBaseUrl + "boxContent/read/?boxId=" + data.boxId;
+                return crudServiceBaseUrl + "boxContent/read/"+ dataItem.boxId;
               },
-              type:'get'
+              dataType: "json",
+              type: "get",
+              processData: false
             },
             pageSize: 10
           }
