@@ -58,8 +58,20 @@
       })
       .state('boxes', {
         url: "/boxes",
-        templateUrl: "app/boxes/boxes.html",
+        templateUrl: "app/box/boxes.html",
         controller: 'boxCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
+      .state('boxes.details', {
+        url: "/details",
+        views: {
+          "box-details-view": {
+            templateUrl: "app/box/boxDetails.html",
+            controller: 'boxDetailsCtrl'
+          }
+        },
         data: {
           pageTitle: 'Example view'
         }
