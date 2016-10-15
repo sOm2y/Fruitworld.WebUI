@@ -16,10 +16,10 @@
 
       <li uib-dropdown>
         <a class="count-info" href uib-dropdown-toggle>
-          <i class="fa fa-shopping-cart"></i> <span class="label label-warning">{{selectedProducts.length}}</span>
+          <i class="fa fa-shopping-cart"></i> <span class="label label-warning">{{totalProducts}}</span>
         </a>
         <ul class="dropdown-messages" uib-dropdown-menu>
-          <div ng-repeat="product in selectedProducts">
+          <div ng-repeat="product in countedProducts">
             <li>
               <div class="dropdown-messages-box">
                 <a ui-sref="profile" class="pull-left">
@@ -27,8 +27,8 @@
                 </a>
 
                 <div>
-                  <small class="pull-right">46h ago</small>
-                  <strong>{{product.name}}</strong> {{product.listPrice}}<strong>. <br>
+                  <small class="pull-right">x {{product.count}}</small>
+                  <strong>{{product.product.name}}</strong> {{(product.product.listPrice*product.count)|currency}}<strong>. <br>
                 <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
               </div>
             </div>
