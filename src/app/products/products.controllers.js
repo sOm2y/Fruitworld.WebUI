@@ -215,7 +215,8 @@
       function addToCart(e){
         e.preventDefault();
         shoppingCartService.addProduct(this.dataItem($(e.currentTarget).closest("tr")));
-        //TODO: if add same id of a product twice should add a 'x2' text instead of displaying duplicate product
+        var updatedShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+        $scope.$apply(); //run a digest cycle again to refesh dom
       }
 
       function categoryDropDownEditor(container, options) {
