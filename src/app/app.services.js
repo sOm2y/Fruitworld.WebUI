@@ -147,6 +147,15 @@
           return result;
       };
 
+      this.getTotalPrice = function(productsInCart){
+        //TODO: get total price
+        this.countDuplicateProducts (productsInCart);
+      };
+
+      this.removeProduct = function(){
+        //TODO
+      };
+
     }]);
 
 })();
