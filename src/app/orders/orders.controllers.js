@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('fruitWorld')
-    .controller('orderCtrl', ['$scope', 'uuid2', '$resource', function($scope, uuid2, $resource) {
+    .controller('orderCtrl', ['$scope', 'uuid2', 'fruitWorldAPIService', function($scope, uuid2, fruitWorldAPIService) {
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       //var crudServiceBaseUrl = "http://localhost:64328/api/";
 
@@ -10,10 +10,12 @@
       // Get Order Count
       function orderCount() {
         var count = 0;
-        var Orders = $resource(crudServiceBaseUrl + "order/read");
-        Orders.get().$promise.then(function(orders) {
-          count = _.size(orders);
-        });
+        fruitWorldAPIService.get({
+            section: "order/read"
+          })
+          .$promise.then(function(orders) {
+            count = _.size(orders);
+          });
         return count;
       }
 
@@ -23,8 +25,10 @@
 
       function getContacts() {
         var result = [];
-        $resource(crudServiceBaseUrl + "contact/read")
-          .get().$promise.then(function(cats) {
+        fruitWorldAPIService.get({
+            section: "contact/read"
+          })
+          .$promise.then(function(cats) {
             _.forEach(cats, function(cat) {
               result.push({
                 "contactId": cat.contactId,
@@ -37,8 +41,10 @@
 
       function getAddresses() {
         var result = [];
-        $resource(crudServiceBaseUrl + "address/read")
-          .get().$promise.then(function(addes) {
+        fruitWorldAPIService.get({
+            section: "address/read"
+          })
+          .$promise.then(function(addes) {
             _.forEach(addes, function(address) {
               result.push({
                 "addressId": address.addressId,
@@ -210,8 +216,15 @@
     wnd.center().open();
   }
 
-  $scope.creditOrder = function(dataItem){
-    
+  $scope.creditOrder = function(dataItem) {
+    fruitWorldAPIService.update({
+        section: "order/creditOrder/" + dataItem.orderId
+      }, dataItem)
+      .$promise.then(function(res) {
+        console.log(res);
+      }, function(err) {
+        console.log(err);
+      });
   };
 
   $scope.cancelCredit = function() {
