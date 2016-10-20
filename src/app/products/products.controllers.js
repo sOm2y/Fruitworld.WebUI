@@ -203,7 +203,7 @@
 
       function showDetails(e) {
         e.preventDefault();
-        $rootScope.productDataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $rootScope.productDataItem = dataItem($(e.currentTarget).closest("tr"));
         localStorage.setItem('productData', JSON.stringify($rootScope.productDataItem));
         $state.go('products.details', {
           product: JSON.stringify($rootScope.productDataItem)
@@ -385,7 +385,7 @@
       };
       $scope.backToProduct = function() {
         $state.go('products');
-      }
+      };
 
     }])
     .controller('stockCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {

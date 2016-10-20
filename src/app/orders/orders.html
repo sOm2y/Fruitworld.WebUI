@@ -1,16 +1,44 @@
 <div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="text-center m-t-lg">
-                <h1>
-                    Coming Soon...
-                </h1>
-                <small>
-                    {{descriptionText}}
+  <div class="row">
+    <div class="col-lg-12"></div>
+  </div>
 
-                    <i class="glyphicon glyphicon-pencil"></i>
-                </small>
-            </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-title">Order List</div>
+        <div class="ibox-content">
+          <!-- grid element -->
+          <kendo-grid options="orderGridOptions">
+
+          </kendo-grid>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+
+<script type="text/x-kendo-template" id="creditTemplate">
+  <div id="details-container">
+    <h2>Credit Order</h2>
+    <p>
+      <font color="red">Warning!</font> You are going to credit this order. Please comment your reasons.
+    </p>
+    <ul class="fieldlist">
+      <li>
+        <label for="orderId"></label>
+      </li>
+      <li><input class="k-textbox" type="text" name="orderId" data-bind="value: orderId" readonly="readonly"></li>
+      <li>
+        <label for="orderComment">Commnet</label>
+      </li>
+      <li>
+        <input class="k-textbox" type="textbox" id = "orderCommentContent" name="orderCommentContent" data-bind="value:comment" width="100%">
+      </li>
+      <li>
+        <button class="k-button btn btn-danger" type="button" id="submitCredit" name="submitCredit" ng-click ="creditOrder()">Credit</button>
+        <button class="k-button btn btn-info" type="button" id="cancelCredit" name="submitCredit" ng-click ="cancelCredit()">Cancel</button>
+      </li>
+    </ul>
+  </div>
+</script>
