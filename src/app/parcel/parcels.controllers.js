@@ -4,8 +4,8 @@
     '$scope',
     'uuid2',
     function($scope, uuid2) {
-      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      //var crudServiceBaseUrl = "http://localhost:64328/api/";
+      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      var crudServiceBaseUrl = "http://localhost:64328/api/";
 
       var _dataSource = new kendo.data.DataSource({
         pageSize: 20,

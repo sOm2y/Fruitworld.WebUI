@@ -6,20 +6,24 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox">
+        <div class="ibox-title">Box List</div>
         <div class="ibox-content">
           <!-- grid element -->
           <kendo-grid options="boxGridOptions">
-            <div k-detail-template>
-              <kendo-tabstrip>
-                <ul>
-                  <li class="k-state-active">Box Contents</li>
-                </ul>
-                <div>
-                  <div id="boxContentGrid" kendo-grid k-options="boxContentGridOptions(dataItem)"></div>
-                </div>
-              </kendo-tabstrip>
-            </div>
           </kendo-grid>
+
+          <div id="createBoxDialog">
+            <ul class="fieldlist">
+              <li>New Box Goes Here</li>
+            </ul>
+            <button class="k-button btn btn-info" ng-click="submitBoxClick()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Submit</button>
+            <button class="k-button close-button btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Cancel</button>
+          </div>
+          <script type="text/x-kendo-template" id="createBoxTemplate">
+            <div class="toolbar">
+              <button class="k-button" ng-click="createBoxClick()"><i class="fa fa-plus" aria-hidden="true"></i> New Box</button>
+            </div>
+          </script>
         </div>
       </div>
     </div>
