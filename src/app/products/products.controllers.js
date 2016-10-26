@@ -3,7 +3,8 @@
   'use strict';
 
   angular.module('fruitWorld')
-    .controller('productCtrl', ['$rootScope', '$scope', '$state','uuid2', function($rootScope, $scope, $state, uuid2) {
+
+    .controller('productCtrl', ['shoppingCartService','$rootScope', '$scope', '$state', 'uuid2', function(shoppingCartService,$rootScope, $scope, $state, uuid2) {
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       //var crudServiceBaseUrl = "http://localhost:64328/api/";
       $scope.mainGridOptions = {
@@ -138,6 +139,15 @@
           text: "ADD PRODUCT"
         }],
         columns: [{
+          command: [{
+            name: "customEdit",
+            text: "Add",
+            imageClass: "k-add",
+            className: "k-custom-add",
+            iconClass: "k-icon",
+            click: addToCart
+          }],
+        },{
           field: "barcode",
           title: "Barcode",
           filterable: {
@@ -208,6 +218,13 @@
         $state.go('products.details', {
           product: JSON.stringify($rootScope.productDataItem)
         });
+      }
+
+      function addToCart(e){
+        e.preventDefault();
+        shoppingCartService.addProduct(this.dataItem($(e.currentTarget).closest("tr")));
+        var updatedShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+        $scope.$apply(); //run a digest cycle again to refesh dom
       }
 
       function categoryDropDownEditor(container, options) {

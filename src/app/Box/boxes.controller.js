@@ -9,8 +9,8 @@
     'uuid2',
     '$resource',
     function($scope, uuid2, $resource) {
-      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      var crudServiceBaseUrl = "http://localhost:64328/api/";
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      //var crudServiceBaseUrl = "http://localhost:64328/api/";
 
       // Product ForeignKey column
       var products = getProducts();

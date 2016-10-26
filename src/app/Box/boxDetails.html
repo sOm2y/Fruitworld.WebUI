@@ -1,10 +1,273 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+  <div class="row">
+    <div kendo-tab-strip k-content-urls="[ null, null]">
+      <!-- tab list -->
+      <ul>
+        <li class="k-state-active">Product Info</li>
+        <li>Stock</li>
+        <li>Discount</li>
+        <li>Upload</li>
+      </ul>
+      <div style="padding: 1em">
+        <div class="row" style="padding-bottom:30px;">
+          <div class="col-sm-12">
+            <button class="k-button k-primary" ng-click="updateProduct(productDataItem)">Save Changes</button>
+            <button class="k-button k-primary" ng-click="backToProduct()">Back to product list</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Product Name:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" ng-model="productDataItem.name" type="text" class="k-textbox" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>List Price:</label>
+              </div>
+              <div class="col-sm-8">
+                <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="productDataItem.listPrice" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>GST Include:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" ng-model="productDataItem.gstInclude" type="text" class="k-textbox" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Members Price:</label>
+              </div>
+              <div class="col-sm-8">
+                <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="productDataItem.membersPrice" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Weight:</label>
+              </div>
+              <div class="col-sm-8">
+                <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="productDataItem.weight" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Size:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.size" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Category:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.category" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>SKU:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.sku" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Barcode:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.barcode" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Expiration:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.expiration" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Safe Stock Level:</label>
+              </div>
+              <div class="col-sm-8">
+                <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="productDataItem.safeStockLevel" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Origin:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.origin" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Tags:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.tags" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Quantity:</label>
+              </div>
+              <div class="col-sm-8">
+                <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="productDataItem.quantity" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>Put Away:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.putaway" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>New Arrival:</label>
+              </div>
+              <div class="col-sm-8">
+                <input id="simple-input" type="text" class="k-textbox" ng-model="productDataItem.newArrival" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-2">
+                <label>In Coming:</label>
+              </div>
+              <div class="col-sm-8">
+                <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="productDataItem.inComing" style="width: 100%;"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5"></div>
+        </div>
+        <br>
+
+        <br>
+        <div class="row">
+          <div class="col-sm-1">
+            <label>Description:</label>
+          </div>
+          <div class="col-sm-10">
+            <textarea kendo-editor="keditor" id="details" style="width: 90%" ng-bind-html="productDataItem.description" k-ng-model="productDataItem.description"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="padding: 1em">
+        <div class="row">
+          <div class="col-sm-1">
+            <label>SKU:</label>
+          </div>
+          <div class="col-sm-10">
+            <input id="simple-input" type="text" class="k-textbox" k-ng-model="sku" style="width: 100%;"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-1">
+            <label>Quantity:</label>
+          </div>
+          <div class="col-sm-10">
+            <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="quantity" style="width: 100%;"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-1">
+            <label>In Coming:</label>
+          </div>
+          <div class="col-sm-10">
+            <input kendo-numeric-text-box k-min="0" k-max="100" k-ng-model="inComing" style="width: 100%;"/>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 1em;">
+        <kendo-grid options="discountGridOption"></kendo-grid>
+      </div>
+
+      <div style="padding: 1em">
+        <div>
+          <h4>Upload files</h4>
+          <input name="files" type="file" kendo-upload k-async="{ saveUrl: 'http://fruitworldwebapi.azurewebsites.net/api/image/upload/'+productDataItem.productId, removeUrl: 'remove', autoUpload: false }" k-select="onSelect"/>
+        </div>
+        <div style="padding-top: 1em;">
+          <h4>Console</h4>
+          <div class="console"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>

@@ -64,10 +64,30 @@
           pageTitle: 'Example view'
         }
       })
+      .state('boxes.details', {
+        url: "/details",
+        views: {
+          "box-details-view": {
+            templateUrl: "app/box/boxDetails.html",
+            controller: 'boxDetailsCtrl'
+          }
+        },
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
       .state('parcel', {
         url: "/parcel",
         templateUrl: "app/parcel/parcel.html",
         controller: 'parcelCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
+      .state('shoppingCart', {
+        url: "/cart",
+        templateUrl: "app/shoppingCart/shoppingCart.html",
+        controller: 'shoppingCartCtrl',
         data: {
           pageTitle: 'Example view'
         }
