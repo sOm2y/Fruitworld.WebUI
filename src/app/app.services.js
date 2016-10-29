@@ -148,12 +148,18 @@
       };
 
       this.getTotalPrice = function(productsInCart){
-        //TODO: get total price
-        this.countDuplicateProducts (productsInCart);
+        $rootScope.totalPrice = 0;
+        return  _.map(productsInCart,function(product){
+           return $rootScope.totalPrice =$rootScope.totalPrice + product.product.listPrice*product.count;
+        });
       };
 
-      this.removeProduct = function(){
-        //TODO
+      this.removeProduct = function(deleteProduct,productsInCart){
+        var newShoppingCart = _.remove(productsInCart, function(product) {
+          return product.productId !== deleteProduct.product.productId;
+        });
+        localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart));
+        return newShoppingCart;
       };
 
     }]);

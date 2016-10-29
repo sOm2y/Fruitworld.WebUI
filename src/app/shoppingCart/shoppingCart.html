@@ -4,7 +4,7 @@
 
             <div class="ibox">
                 <div class="ibox-title">
-                    <span class="pull-right">(<strong>5</strong>) items</span>
+                    <span class="pull-right">(<strong>{{ cartProducts.length }}</strong>) items</span>
                     <h5>Items in your cart</h5>
                 </div>
                 <div class="ibox-content" ng-repeat="product in countedProducts">
@@ -36,7 +36,7 @@
                                     <div class="m-t-sm">
                                         <a href="#" class="text-muted"><i class="fa fa-gift"></i> Add gift package</a>
                                         |
-                                        <a href="#" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
+                                        <a href="" ng-click="deleteCartProduct(product)" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
                                     </div>
                                 </td>
 
@@ -45,7 +45,7 @@
                                     <s class="small text-muted">{{product.product.listPrice | currency}}</s>
                                 </td>
                                 <td width="65">
-                                    <input type="text" class="form-control" ng-model="product.count">
+                                    <input type="text" class="form-control" ng-model="product.count" ng-change="updateProductCount($index,product)">
                                 </td>
                                 <td>
                                     <h4>
@@ -78,7 +78,9 @@
                                 Total
                             </span>
                     <h2 class="font-bold">
-                        $390,00
+
+                      {{totalPrice|currency}}
+
                     </h2>
 
                     <hr/>
