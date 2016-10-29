@@ -66,7 +66,7 @@
                   editable: false,
                   nullable: false,
                   defaultValue: uuid2.newuuid(),
-                  validation:{
+                  validation: {
                     required: true
                   }
                 },
@@ -158,7 +158,8 @@
         }, {
           field: "name",
           title: "Name",
-          // width: "120px",
+          // editor:Getvalue,
+          template: "<a href='' class='productLink' ng-click='showDetails(this)'>#=name#</a>",
           filterable: {
             cell: {
               showOperators: false
@@ -198,22 +199,15 @@
           field: "safeStockLevel",
           title: "Safe Stock Level"
         }, {
-          command: [{
-            name: "customEdit",
-            text: "More",
-            imageClass: "k-edit",
-            className: "k-custom-edit",
-            iconClass: "k-icon",
-            click: showDetails
-          }, "edit", "destroy"],
+          command: [ "edit", "destroy"],
           title: "&nbsp;",
           // width: 250
         }]
       };
 
-      function showDetails(e) {
-        e.preventDefault();
-        $rootScope.productDataItem = dataItem($(e.currentTarget).closest("tr"));
+      $scope.showDetails = function(e) {
+        // e.preventDefault();
+        $rootScope.productDataItem = e.dataItem;
         localStorage.setItem('productData', JSON.stringify($rootScope.productDataItem));
         $state.go('products.details', {
           product: JSON.stringify($rootScope.productDataItem)

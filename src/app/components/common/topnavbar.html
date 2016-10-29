@@ -37,11 +37,14 @@
           </div>
           <li>
             <div class="text-center link-block">
-              <a ui-sref="shoppingCart">
-                <i class="fa fa-envelope"></i> <strong>Go to Shopping Cart</strong>
-                  </a>
-                </div>
-            </li>
+              <a ui-sref="shoppingCart" ng-if="totalProducts>0">
+                <i class="fa fa-shopping-cart"></i> <strong>Go to Shopping Cart</strong>
+              </a>
+              <a ng-if="totalProducts<=0">
+                <i class="fa fa-shopping-cart"></i> <strong>Empty Shopping Cart</strong>
+              </a>
+            </div>
+          </li>
         </ul>
       </li>
 
