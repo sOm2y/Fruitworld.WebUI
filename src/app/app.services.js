@@ -107,27 +107,42 @@
       }
     ])
     .service('shoppingCartService', ['$rootScope', function($rootScope) {
-      this.addProduct = function(product) {
-        var shoppingCart = [];
-        shoppingCart.push(product);
-        this.updateShoppingCart(shoppingCart);
-      };
-
-      this.updateShoppingCart = function(newShoppingCart) {
-        if (localStorage.getItem('shoppingCart')) {
-          var oldShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
-          _.forEach(newShoppingCart, function(newProduct) {
-            oldShoppingCart.push(newProduct);
-          });
-          localStorage.setItem('shoppingCart', JSON.stringify(oldShoppingCart));
+      this.addProduct = function(newProduct) {
+        if (localStorage.getItem('countedShoppingCart')) {
+          var oldShoppingCart = JSON.parse(localStorage.getItem('countedShoppingCart'));
+          updateProductIndex = _.findIndex(oldShoppingCart, function(oldProduct) { return oldProduct.productId === newProduct.productId; });
+          if(updateProductIndex !== -1){
+            oldShoppingCart[updateProductIndex].product.push(newProduct);
+            oldShoppingCart[updateProductIndex].count++;
+          }else{
+            var newProducts = [];
+            newProducts.push(newProduct);
+            oldShoppingCart.push({
+              productId:newProduct.productId,
+              product:newProducts,
+              count:newProducts.length
+            })
+          }
+          localStorage.setItem('countedShoppingCart', JSON.stringify(oldShoppingCart));
         } else {
-          localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart));
+          var newShoppingCart = [];
+          newShoppingCart.push(newProduct);
+          localStorage.setItem('countedShoppingCart', JSON.stringify(this.countDuplicateProducts(newShoppingCart)));
         }
       };
 
+      this.updateShoppingCart = function(newProduct) {
+        // if (localStorage.getItem('shoppingCart')) {
+        //   var oldShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
+        //   _.forEach(newShoppingCart, function(newProduct) {
+        //     oldShoppingCart.push(newProduct);
+        //   });
+
+      };
+
       this.getShoppingCart = function() {
-        if (localStorage.getItem('shoppingCart')) {
-          return JSON.parse(localStorage.getItem('shoppingCart'));
+        if (localStorage.getItem('countedShoppingCart')) {
+          return JSON.parse(localStorage.getItem('countedShoppingCart'));
         } else {
           //error handling should be triggered.
           return [];
@@ -140,25 +155,28 @@
           .map(function(products, productId) {
             return {
               productId: productId,
-              product:products[0],
+              product: products,
               count: products.length
             };
           }).value();
-          return result;
+        return result;
       };
 
-      this.getTotalPrice = function(productsInCart){
+      this.getTotalPrice = function(productsInCart) {
         $rootScope.totalPrice = 0;
-        return  _.map(productsInCart,function(product){
-           return $rootScope.totalPrice =$rootScope.totalPrice + product.product.listPrice*product.count;
+        $rootScope.totalCount = 0;
+        return _.each(productsInCart, function(product) {
+          $rootScope.totalPrice = $rootScope.totalPrice + product.product[0].listPrice * product.count;
+          $rootScope.totalCount = $rootScope.totalCount + parseInt(product.count);
+          // console.log("total count "+ $rootScope.totalCount+"product count "+product.count);
         });
       };
 
-      this.removeProduct = function(deleteProduct,productsInCart){
+      this.removeProduct = function(deleteProduct, productsInCart) {
         var newShoppingCart = _.remove(productsInCart, function(product) {
-          return product.productId !== deleteProduct.product.productId;
+          return product.productId !== deleteProduct.productId;
         });
-        localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart));
+        localStorage.setItem('countedShoppingCart', JSON.stringify(newShoppingCart));
         return newShoppingCart;
       };
 

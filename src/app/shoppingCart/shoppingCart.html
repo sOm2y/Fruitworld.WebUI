@@ -4,7 +4,7 @@
 
             <div class="ibox">
                 <div class="ibox-title">
-                    <span class="pull-right">(<strong>{{ cartProducts.length }}</strong>) items</span>
+                    <span class="pull-right">(<strong>{{ totalCount }}</strong>) items</span>
                     <h5>Items in your cart</h5>
                 </div>
                 <div class="ibox-content" ng-repeat="product in countedProducts">
@@ -22,15 +22,15 @@
                                 <td class="desc">
                                     <h3>
                                         <a href="#" class="text-navy">
-                                            {{product.product.name}}
+                                            {{product.product[0].name}}
                                         </a>
                                     </h3>
                                     <p class="small">
-                                      {{product.product.description}}
+                                      {{product.product[0].description}}
                                     </p>
                                     <dl class="small m-b-none">
                                         <dt>Description lists</dt>
-                                        <dd>A  {{product.product.description}}</dd>
+                                        <dd>A  {{product.product[0].description}}</dd>
                                     </dl>
 
                                     <div class="m-t-sm">
@@ -41,15 +41,15 @@
                                 </td>
 
                                 <td>
-                                      {{product.product.listPrice| currency}}
-                                    <s class="small text-muted">{{product.product.listPrice | currency}}</s>
+                                      {{product.product[0].listPrice| currency}}
+                                    <s class="small text-muted">{{product.product[0].listPrice | currency}}</s>
                                 </td>
                                 <td width="65">
                                     <input type="text" class="form-control" ng-model="product.count" ng-change="updateProductCount($index,product)">
                                 </td>
                                 <td>
                                     <h4>
-                                        {{product.product.listPrice * product.count| currency}}
+                                        {{product.product[0].listPrice * product.count| currency}}
                                     </h4>
                                 </td>
                             </tr>
@@ -60,8 +60,9 @@
                 </div>
                 <div class="ibox-content">
 
-                    <button class="btn btn-primary pull-right" ng-click="addToBox(countedProducts)"><i class="fa fa fa-shopping-cart"></i> Add to Box</button>
-                    <button class="btn btn-white" ng-click="addToOrder(countedProducts)"><i class="fa fa-arrow-left"></i> Add to Order</button>
+                    <button class="btn btn-white" ng-click="addToBox(countedProducts)"><i class="fa fa fa-th"></i> Add to Box</button>
+                    <button class="btn btn-white" ng-click="addToOrder(countedProducts)"><i class="fa fa-inbox"></i> Add to Order</button>
+                    <button ng-if="hasShoppingCartChanged" class="btn btn-primary pull-right" ng-click="updateShoppingCart(countedProducts)"><i class="fa fa-shopping-cart"></i> Update Shopping Cart</button>
 
                 </div>
             </div>
@@ -151,3 +152,9 @@
 
 
 </div>
+
+<script id="notificationTemplate" type="text/x-kendo-template">
+		<div class="toast toast-success" style="width: 16em; padding:1em;white-space:nowrap;color:white;"> {{ngValue}} #= kValue # </div>
+</script>
+
+<span kendo-notification="notf1" k-options="notf1Options"></span>
