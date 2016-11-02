@@ -9,11 +9,12 @@
     'uuid2',
     '$resource',
     function($scope, uuid2, $resource) {
-      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      //var crudServiceBaseUrl = "http://localhost:64328/api/";
+      // var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      var crudServiceBaseUrl = "http://localhost:64328/api/";
 
       // Product ForeignKey column
       var products = getProducts();
+      var defaultProduct = getDefaultProduct();
 
       function getProducts() {
         var result = [];
@@ -21,6 +22,14 @@
           _.forEach(products, function(product) {
             result.push({"value": product.productId, "text": product.name});
           });
+        });
+        return result;
+      }
+
+      function getDefaultProduct() {
+        var result = [];
+        $resource(crudServiceBaseUrl + "products/read/").query().$promise.then(function(products) {
+          result.push(_.first(products));
         });
         return result;
       }
@@ -126,30 +135,41 @@
         },
         columns: [
           {
+            template: "<a href='' class='btn btn-info' ng-click='showDetails(this)'><i class='fa fa-info-circle' aria-hidden='true'></i></a>",
+            title: "&nbsp;",
+            width: "3%"
+          }, {
             field: "barcode",
-            title: "Barcode"
+            title: "Barcode",
+            width: "10%"
           }, {
             field: "unitPrice",
             title: "Unit Price",
-            format: "{0:c}"
+            format: "{0:c}",
+            width: "10%"
           }, {
             field: "gst",
             title: "GST",
-            format: "{0:c}"
+            format: "{0:c}",
+            width: "5%"
           }, {
             field: "incGst",
             title: "Inc.Gst",
-            template: "#=incGst? \"<span class='label label-primary'>Yes</span>\" :  \"<span class='label label-danger'>No</span>\"#"
+            template: "#=incGst? \"<span class='label label-primary'>Yes</span>\" :  \"<span class='label label-danger'>No</span>\"#",
+            width: "5%"
           }, {
             field: "weight",
             title: "Weight",
-            format: "{0:n2}KG"
+            format: "{0:n2}KG",
+            width: "5%"
           }, {
             field: "size",
-            title: "Size"
+            title: "Size",
+            width: "10%"
           }, {
             field: "stock",
-            title: "Stock"
+            title: "Stock",
+            width: "5%"
           }, {
             field: "description",
             title: "Description"
@@ -157,13 +177,23 @@
             command: [
               "edit", "destroy"
             ],
-            title: "Action"
+            title: "Action",
+            width: "10%"
           }
         ],
         editable: {
           mode: "inline"
         }
       };
+
+      $scope.showDetails = function(e) {
+        // e.preventDefault();
+        $rootScope.boxDataItem = e.dataItem;
+        localStorage.setItem('boxData', JSON.stringify($rootScope.boxDataItem));
+        $state.go('boxes.details', {
+          product: JSON.stringify($rootScope.boxDataItem)
+        });
+      }
 
       function detailInit(e) {
         $("<div/>").appendTo(e.detailCell).kendoGrid({
@@ -268,7 +298,8 @@
               values: products
             }, {
               field: "quantity",
-              "title": "Quantity"
+              title: "Quantity",
+              format: "{0:n}"
             }, {
               field: "weight",
               title: "Weight",
@@ -283,16 +314,18 @@
         });
       }
 
+      // Setting Window for  New Box
       var newBox = $("#createBoxDialog");
 
       if (!newBox.data("kendoWindow")) {
         newBox.kendoWindow({
           modal: true,
           actions: [
-            "Minimize", "Maximize", "Close"
+            "Pin", "Minimize", "Maximize", "Close"
           ],
           title: "Create a New Box",
-          visible: false
+          visible: false,
+          width: "800px"
         });
       }
 
@@ -306,6 +339,157 @@
         // the above is equivalent to:
         //$(this).closest(".k-window-content").data("kendoWindow").close();
       });
+
+      $("#boxUnitPrice").kendoNumericTextBox({min: 0.00, max: 9999999999.99, format: "c", decimals: 2});
+
+      $("#boxSize").kendoComboBox({filter: "contains"});
+
+      // Box View Model
+      var boxViewModel = kendo.observable({
+        boxId: uuid2.newuuid(),
+        barcode: null,
+        unitPrice: 0.00,
+        description: null,
+        incGst: true,
+        size: null,
+        boxContents: [],
+        boxSizeSource: new kendo.data.DataSource({
+          transport: {
+            read: {
+              url: function() {
+                return crudServiceBaseUrl + "Box/BoxSize";
+              },
+              dataType: "json"
+            }
+          }
+        })
+      });
+
+      kendo.bind($("#createBoxDialog"), boxViewModel);
+
+      // Using localStorage for newBoxContentGridOption
+      var gridData = [];
+      localStorage["boxContent_data"] = JSON.stringify(gridData);
+
+      var localDataSource = new kendo.data.DataSource({
+        transport: {
+          create: function(options) {
+            var localData = JSON.parse(localStorage["boxContent_data"]);
+            options.data.boxContentId = uuid2.newuuid();
+            options.data.boxId = boxViewModel.get("boxId");
+            localData.push(options.data);
+            localStorage["boxContent_data"] = JSON.stringify(localData);
+            console.log(localStorage["boxContent_data"]);
+            options.success(options.data);
+          },
+          read: function(options) {
+            var localData = JSON.parse(localStorage["boxContent_data"]);
+            options.success(localData);
+          },
+          update: function(options) {
+            var localData = JSON.parse(localStorage["boxContent_data"]);
+
+            for (var i = 0; i < localData.length; i++) {
+              if (localData[i].boxContentId == options.data.boxContentId) {
+                localData[i] = options.data;
+              }
+            }
+            localStorage["boxContent_data"] = JSON.stringify(localData);
+            options.success(options.data);
+          },
+          destroy: function(options) {
+            var localData = JSON.parse(localStorage["boxContent_data"]);
+            for (var i = 0; i < localData.length; i++) {
+              if (localData[i].boxContentId === options.data.boxContentId) {
+                localData.splice(i, 1);
+                break;
+              }
+            }
+            localStorage["boxContent_data"] = JSON.stringify(localData);
+            options.success(localData);
+          }
+        },
+        schema: {
+          model: {
+            id: "boxContentId",
+            fields: {
+              boxContentId: {
+                editable: false,
+                nullable: false,
+                defaultValue: uuid2.newuuid()
+              },
+              boxId: {
+                defaultValue: uuid2.newuuid()
+              },
+              quantity: {
+                type: "number",
+                defaultValue: 1
+              },
+              product: {
+                defaultValue: {
+                  productId: defaultProduct.productId,
+                  name: defaultProduct.name
+                }
+              }
+            }
+          }
+        },
+        pageSize: 20
+      });
+
+      $("#localBoxContentGrid").kendoGrid({
+        dataSource: localDataSource,
+        pageable: true,
+        toolbar: ["create"],
+        columns: [
+          {
+            field: "product",
+            title: "Product Name",
+            editor: productDropDownEditor,
+            template: "#=product.name#",
+            width: "50%"
+          }, {
+            field: "quantity",
+            "title": "Quantity",
+            format: "{0:n}",
+            width: "20%"
+          }, {
+            command: [
+              "edit", "destroy"
+            ],
+            title: "Action",
+            width: "30%"
+          }
+        ],
+        editable: "inline"
+      });
+
+      // Dropdown editor for the local box content grid
+      function productDropDownEditor(container, options) {
+        $('<input required name="' + options.field + '"/>').appendTo(container).kendoDropDownList({
+          autoBind: false,
+          filter: "contains",
+          dataTextField: "name",
+          dataValueField: "productId",
+          dataSource: {
+            transport: {
+              read: {
+                url: function() {
+                  return crudServiceBaseUrl + "products/read";
+                },
+                dataType: "json"
+              }
+            }
+          }
+        });
+      }
+
+      // Submit the new box
+      $scope.submitBoxClick = function() {
+        var localData = JSON.stringify(localStorage["boxContent_data"]);
+        console.log("local data:", localData);
+        boxViewModel.set("boxContents",localStorage["boxContent_data"]);
+      }
     }
   ]);
 })();
