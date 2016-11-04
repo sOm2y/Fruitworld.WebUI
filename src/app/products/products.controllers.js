@@ -127,9 +127,7 @@
             }
           }
         }),
-        filterable: {
-          mode: "menu"
-        },
+        filterable: true,
         navigatable: true,
         sortable: true,
         pageable: true,
