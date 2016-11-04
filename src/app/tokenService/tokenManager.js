@@ -11,7 +11,6 @@
       client_id: 'fruitWorld.app',
       redirect_uri: appSettings.appUri + 'callback.html',
       response_type: 'id_token token',
-      scope: 'openid roles user',
       authority: appSettings.accountServerUri
     };
 

@@ -16,7 +16,7 @@
         if (mgr.expired) {
           $log.debug('token expired, redirecting for new token.')
           // TODO: uncomment this for authentication
-          //mgr.redirectForToken();
+          mgr.redirectForToken();
         }
 
         $scope.message = '';

@@ -4,9 +4,9 @@
     .constant('appSettings',
       {
         //TODO update the urls
-        backendUri: '',
-        accountServerUri: '',
-        appUri: ''
+        backendUri: 'http://localhost:55462/',
+        accountServerUri: 'http://localhost:55462/',
+        appUri: 'http://localhost:3000/'
       });
 
 
