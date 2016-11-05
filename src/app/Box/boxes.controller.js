@@ -5,36 +5,50 @@
   "use strict";
 
   angular.module('fruitWorld').controller('boxCtrl', [
+    '$rootScope',
     '$scope',
     'uuid2',
     '$resource',
-    function($scope, uuid2, $resource) {
-      // var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      var crudServiceBaseUrl = "http://localhost:64328/api/";
+    '$state',
+    'fruitWorldAPIService',
+    function($rootScope, $scope, uuid2, $resource, $state,fruitWorldAPIService) {
+      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      //var crudServiceBaseUrl = "http://localhost:64328/api/";
+
+      $scope.boxWindow;
+      // Box View Model
+      $scope.newBox = {
+        boxId: uuid2.newuuid(),
+        barcode: null,
+        unitPrice: 0.00,
+        description: null,
+        incGst: true,
+        size: null,
+        boxContents: []
+      };
 
       // Product ForeignKey column
-      var products = getProducts();
-      var defaultProduct = getDefaultProduct();
-
-      function getProducts() {
-        var result = [];
-        $resource(crudServiceBaseUrl + "products/read/").query().$promise.then(function(products) {
-          _.forEach(products, function(product) {
-            result.push({"value": product.productId, "text": product.name});
+      $scope.products = [];
+      $scope.defaultProduct = [];
+      fruitWorldAPIService.query({
+          section: 'products/read'
+        })
+        .$promise.then(function(res) {
+          _.forEach(res, function(product) {
+              $scope.products.push({
+                "value": product.productId,
+                "text": product.name
+              });
           });
+          $scope.defaultProduct.push(_.first($scope.products));
+          console.log("Product:", $scope.products);
+          console.log("Default Product:", $scope.defaultProduct);
+        }, function(err) {
+          console.log(err);
         });
-        return result;
-      }
 
-      function getDefaultProduct() {
-        var result = [];
-        $resource(crudServiceBaseUrl + "products/read/").query().$promise.then(function(products) {
-          result.push(_.first(products));
-        });
-        return result;
-      }
 
-      console.log("Product:", products);
+
 
       // Box DataSource
       var _dataSource = new kendo.data.DataSource({
@@ -133,54 +147,52 @@
         dataBound: function() {
           this.expandRow(this.tbody.find("tr.k-master-row").first());
         },
-        columns: [
-          {
-            template: "<a href='' class='btn btn-info' ng-click='showDetails(this)'><i class='fa fa-info-circle' aria-hidden='true'></i></a>",
-            title: "&nbsp;",
-            width: "3%"
-          }, {
-            field: "barcode",
-            title: "Barcode",
-            width: "10%"
-          }, {
-            field: "unitPrice",
-            title: "Unit Price",
-            format: "{0:c}",
-            width: "10%"
-          }, {
-            field: "gst",
-            title: "GST",
-            format: "{0:c}",
-            width: "5%"
-          }, {
-            field: "incGst",
-            title: "Inc.Gst",
-            template: "#=incGst? \"<span class='label label-primary'>Yes</span>\" :  \"<span class='label label-danger'>No</span>\"#",
-            width: "5%"
-          }, {
-            field: "weight",
-            title: "Weight",
-            format: "{0:n2}KG",
-            width: "5%"
-          }, {
-            field: "size",
-            title: "Size",
-            width: "10%"
-          }, {
-            field: "stock",
-            title: "Stock",
-            width: "5%"
-          }, {
-            field: "description",
-            title: "Description"
-          }, {
-            command: [
-              "edit", "destroy"
-            ],
-            title: "Action",
-            width: "10%"
-          }
-        ],
+        columns: [{
+          template: "<a href='' class='btn btn-info' ng-click='showDetails(this)'><i class='fa fa-info-circle' aria-hidden='true'></i></a>",
+          title: "&nbsp;",
+          width: "3%"
+        }, {
+          field: "barcode",
+          title: "Barcode",
+          width: "10%"
+        }, {
+          field: "unitPrice",
+          title: "Unit Price",
+          format: "{0:c}",
+          width: "10%"
+        }, {
+          field: "gst",
+          title: "GST",
+          format: "{0:c}",
+          width: "5%"
+        }, {
+          field: "incGst",
+          title: "Inc.Gst",
+          template: "#=incGst? \"<span class='label label-primary'>Yes</span>\" :  \"<span class='label label-danger'>No</span>\"#",
+          width: "5%"
+        }, {
+          field: "weight",
+          title: "Weight",
+          format: "{0:n2}KG",
+          width: "5%"
+        }, {
+          field: "size",
+          title: "Size",
+          width: "10%"
+        }, {
+          field: "stock",
+          title: "Stock",
+          width: "5%"
+        }, {
+          field: "description",
+          title: "Description"
+        }, {
+          command: [
+            "edit", "destroy"
+          ],
+          title: "Action",
+          width: "10%"
+        }],
         editable: {
           mode: "inline"
         }
@@ -221,7 +233,7 @@
                 url: function(data) {
                   console.log("Box Content ID", e.data.boxContentId);
                   console.log("Update:", e.data);
-                  return crudServiceBaseUrl + "boxContent/update/?id=" + data.boxContentId;
+                  return crudServiceBaseUrl + "boxContent/update/?id=" + e.data.boxContentId;
                 },
                 type: "put",
                 dataType: "json",
@@ -276,6 +288,7 @@
                     type: "number"
                   },
                   productId: {
+                    nullable:true,
                     defaultValue: uuid2.newuuid()
                   }
                 }
@@ -283,42 +296,37 @@
             }
           },
           editable: "inline",
-          toolbar: [
-            {
-              name: "create",
-              text: "New Product"
-            }
-          ],
+          toolbar: [{
+            name: "create",
+            text: "New Product"
+          }],
           sortable: true,
           pageable: true,
-          columns: [
-            {
-              field: "productId",
-              title: "Product Name",
-              values: products
-            }, {
-              field: "quantity",
-              title: "Quantity",
-              format: "{0:n}"
-            }, {
-              field: "weight",
-              title: "Weight",
-              format: "{0:n2}KG"
-            }, {
-              command: [
-                "edit", "destroy"
-              ],
-              title: "Action"
-            }
-          ]
+          columns: [{
+            field: "productId",
+            title: "Product Name",
+            values: $scope.products
+          }, {
+            field: "quantity",
+            title: "Quantity",
+            format: "{0:n}"
+          }, {
+            field: "weight",
+            title: "Weight",
+            format: "{0:n2}KG"
+          }, {
+            command: [
+              "edit", "destroy"
+            ],
+            title: "Action"
+          }]
         });
       }
 
       // Setting Window for  New Box
-      var newBox = $("#createBoxDialog");
 
-      if (!newBox.data("kendoWindow")) {
-        newBox.kendoWindow({
+      $scope.createBoxClick = function() {
+        $scope.DlgOptions = {
           modal: true,
           actions: [
             "Pin", "Minimize", "Maximize", "Close"
@@ -326,86 +334,65 @@
           title: "Create a New Box",
           visible: false,
           width: "800px"
-        });
-      }
-
-      $scope.createBoxClick = function() {
-        newBox.data("kendoWindow").center().open();
-      }
-
-      $(".close-button").click(function() {
-        // call 'close' method on nearest kendoWindow
-        $(this).closest("[data-role=window]").data("kendoWindow").close();
-        // the above is equivalent to:
-        //$(this).closest(".k-window-content").data("kendoWindow").close();
-      });
-
-      $("#boxUnitPrice").kendoNumericTextBox({min: 0.00, max: 9999999999.99, format: "c", decimals: 2});
-
-      $("#boxSize").kendoComboBox({filter: "contains"});
-
-      // Box View Model
-      var boxViewModel = kendo.observable({
-        boxId: uuid2.newuuid(),
-        barcode: null,
-        unitPrice: 0.00,
-        description: null,
-        incGst: true,
-        size: null,
-        boxContents: [],
-        boxSizeSource: new kendo.data.DataSource({
+        };
+        $scope.boxSizeSource ={
           transport: {
             read: {
               url: function() {
-                return crudServiceBaseUrl + "Box/BoxSize";
+                return crudServiceBaseUrl + "box/boxSize";
               },
               dataType: "json"
             }
           }
-        })
-      });
+        };
+        $("#boxUnitPrice").kendoNumericTextBox({
+          min: 0.00,
+          max: 9999999999.99,
+          format: "c",
+          decimals: 2
+        });
+        $scope.boxWindow.setOptions($scope.DlgOptions);
+        $scope.boxWindow.center(); // open dailog in center of screen
+        $scope.boxWindow.open();
+      };
 
-      kendo.bind($("#createBoxDialog"), boxViewModel);
+
 
       // Using localStorage for newBoxContentGridOption
       var gridData = [];
-      localStorage["boxContent_data"] = JSON.stringify(gridData);
+      localStorage.setItem('boxContent_data',JSON.stringify(gridData));
 
       var localDataSource = new kendo.data.DataSource({
         transport: {
           create: function(options) {
-            var localData = JSON.parse(localStorage["boxContent_data"]);
+            var localData = JSON.parse(localStorage.getItem('boxContent_data'));
             options.data.boxContentId = uuid2.newuuid();
-            options.data.boxId = boxViewModel.get("boxId");
+            options.data.boxId = $scope.newBox.boxId;
             localData.push(options.data);
-            localStorage["boxContent_data"] = JSON.stringify(localData);
-            console.log(localStorage["boxContent_data"]);
+            localStorage.setItem('boxContent_data',JSON.stringify(localData));
+            console.log(JSON.parse(localStorage.getItem('boxContent_data')));
             options.success(options.data);
           },
           read: function(options) {
-            var localData = JSON.parse(localStorage["boxContent_data"]);
+            var localData = JSON.parse(localStorage.getItem('boxContent_data'));
             options.success(localData);
           },
           update: function(options) {
-            var localData = JSON.parse(localStorage["boxContent_data"]);
-
-            for (var i = 0; i < localData.length; i++) {
-              if (localData[i].boxContentId == options.data.boxContentId) {
-                localData[i] = options.data;
+            var localData = JSON.parse(localStorage.getItem('boxContent_data'));
+            _.each(localData,function(boxContent){
+              if (boxContent.boxContentId == options.data.boxContentId) {
+                boxContent = options.data;
               }
-            }
-            localStorage["boxContent_data"] = JSON.stringify(localData);
+            })
+            localStorage.setItem('boxContent_data',JSON.stringify(localData));
             options.success(options.data);
           },
           destroy: function(options) {
-            var localData = JSON.parse(localStorage["boxContent_data"]);
-            for (var i = 0; i < localData.length; i++) {
-              if (localData[i].boxContentId === options.data.boxContentId) {
-                localData.splice(i, 1);
-                break;
-              }
-            }
-            localStorage["boxContent_data"] = JSON.stringify(localData);
+            var localData = JSON.parse(localStorage.getItem('boxContent_data'));
+            _.remove(localData,function(boxContent){
+                return boxContent.boxContentId !== options.data.boxContentId;
+            });
+            localStorage.setItem('boxContent_data',JSON.stringify(localData));
             options.success(localData);
           }
         },
@@ -427,8 +414,8 @@
               },
               product: {
                 defaultValue: {
-                  productId: defaultProduct.productId,
-                  name: defaultProduct.name
+                  productId: uuid2.newuuid(),
+                  name: null
                 }
               }
             }
@@ -441,26 +428,24 @@
         dataSource: localDataSource,
         pageable: true,
         toolbar: ["create"],
-        columns: [
-          {
-            field: "product",
-            title: "Product Name",
-            editor: productDropDownEditor,
-            template: "#=product.name#",
-            width: "50%"
-          }, {
-            field: "quantity",
-            "title": "Quantity",
-            format: "{0:n}",
-            width: "20%"
-          }, {
-            command: [
-              "edit", "destroy"
-            ],
-            title: "Action",
-            width: "30%"
-          }
-        ],
+        columns: [{
+          field: "product",
+          title: "Product Name",
+          editor: productDropDownEditor,
+          template: "#=product.name#",
+          width: "50%"
+        }, {
+          field: "quantity",
+          "title": "Quantity",
+          format: "{0:n}",
+          width: "20%"
+        }, {
+          command: [
+            "edit", "destroy"
+          ],
+          title: "Action",
+          width: "30%"
+        }],
         editable: "inline"
       });
 
@@ -485,11 +470,27 @@
       }
 
       // Submit the new box
-      $scope.submitBoxClick = function() {
-        var localData = JSON.stringify(localStorage["boxContent_data"]);
-        console.log("local data:", localData);
-        boxViewModel.set("boxContents",localStorage["boxContent_data"]);
-      }
+      $scope.submitBoxClick = function(newBoxObject) {
+        if (localStorage.getItem('boxContent_data'))
+           newBoxObject.boxContents = JSON.parse(localStorage.getItem('boxContent_data'));
+        fruitWorldAPIService.save({
+            section: 'box/create'
+          }, newBoxObject)
+          .$promise.then(function(res) {
+            console.log(res);
+
+            $scope.boxGridOptions.dataSource.read();
+            $scope.boxWindow.close();
+          }, function(err) {
+            console.log(err);
+          });
+
+         var localData = JSON.stringify(localStorage["boxContent_data"]);
+        // console.log("local data:", localData);
+        // // boxViewModel.set("boxContents",localStorage["boxContent_data"]);
+
+      };
+
     }
   ]);
 })();

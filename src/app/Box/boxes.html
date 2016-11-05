@@ -11,51 +11,59 @@
           <!-- grid element -->
           <kendo-grid options="boxGridOptions">
           </kendo-grid>
+          <div kendo-window="boxWindow">
+            <ul class="fieldlist" id="popupBox">
+              textbox editor for field: Barcode
+              <li>
+                <label class="required">Barcode</label>
+              </li>
+              <li><input type="text" id="boxBarcode" required class="k-input k-textbox" ng-model="newBox.barcode" placeholder="Barcode" style="width: 100%">
+                <span class="k-invalid-msg" data-for="boxBarcode"></span>
+              </li>
+              numerictextbox editor for field: UnitPrice
+              <li><label class="required">Unit Price</label></li>
+              <li><input id="boxUnitPrice" type="number" ng-model="newBox.unitPrice" value="0" required style="width: 100%">
+                <span class="k-invalid-msg" data-for="boxUnitPrice"></span>
+              </li>
+              CheckBox editor for field: inGst
+              <li><input type="checkbox" id="boxIncGst" class="k-checkbox" checked="checked" ng-model="newBox.incGst" required>
+                <label for="boxIncGst" class="k-checkbox-label">Inc. GST</label>
+              </li>
+              dropDownList editor for field: Size
+              <li><label for="boxSize">Size</label></li>
+              <li>
+              <select kendo-combo-box
+                     k-placeholder="'Select Size'"
+                     k-data-text-field="'sizeName'"
+                     k-data-value-field="'sizeName'"
+                     k-filter="'contains'"
+                     k-auto-bind="false"
+                     k-data-source="boxSizeSource"
+                     style="width: 100%"
+                     ng-model="newBox.size"
+                     >
+             </select>
+              </li>
 
-          <!--Popup window element-->
-          <div id="createBoxDialog">
-            <div name="BoxInfo">
-              <ul class="fieldlist" id="popupBox">
-                <!-- textbox editor for field: Barcode-->
-                <li>
-                  <label class="required">Barcode</label>
-                </li>
-                <li><input type="text" id="boxBarcode" required class="k-input k-textbox" data-bind="value: barcode" placeholder="Barcode" style="width: 100%">
-                  <span class="k-invalid-msg" data-for="boxBarcode"></span>
-                </li>
-                <!-- numerictextbox editor for field: UnitPrice-->
-                <li><label class="required">Unit Price</label></li>
-                <li><input id="boxUnitPrice" type="number" data-bind="value: unitPrice" value="0" required style="width: 100%">
-                  <span class="k-invalid-msg" data-for="boxUnitPrice"></span>
-                </li>
-                <!-- CheckBox editor for field: inGst-->
-                <li><input type="checkbox" id="boxIncGst" class="k-checkbox" checked="checked" data-bind="checked: incGst" required>
-                  <label for="boxIncGst" class="k-checkbox-label">Inc. GST</label>
-                </li>
-                <!-- dropDownList editor for field: Size-->
-                <li><label for="boxSize">Size</label></li>
-                <li><input id="boxSize" data-role="combobox" data-auto-bind="false" data-text-field="sizeName" data-value-field="sizeName" data-bind="source:boxSizeSource, value: size" style="width: 100%">
-                </li>
+              textbox editor for field: boxDescription
+              <li>
+                <label for="boxDescription">Description</label>
+              </li>
+              <li><input type="text" id="boxDescription" class="k-input k-textbox" ng-model="newBox.description" placeholder="Description" required style="width: 100%">
+                <span class="k-invalid-msg" data-for="boxDescription"></span>
+              </li>
 
-                <!-- textbox editor for field: boxDescription-->
-                <li>
-                  <label for="boxDescription">Description</label>
-                </li>
-                <li><input type="text" id="boxDescription" class="k-input k-textbox" data-bind="value: description" placeholder="Description" required style="width: 100%">
-                  <span class="k-invalid-msg" data-for="boxDescription"></span>
-                </li>
-
-                <li><label for="localBoxContentGrid">Product List</label></li>
-                <li>
-                  <div id="localBoxContentGrid"></div>
-                </li>
-                <li class="pull-right">
-                  <button class="k-button btn btn-info" ng-click="submitBoxClick()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Submit</button>
-                  <button class="k-button close-button btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Cancel</button>
-                </li>
-              </ul>
-            </div>
+              <li><label for="localBoxContentGrid">Product List</label></li>
+              <li>
+                <div id="localBoxContentGrid"></div>
+              </li>
+              <li class="pull-right">
+                <button class="k-button btn btn-info" ng-click="submitBoxClick(newBox)"><i class="fa fa-plus-circle" aria-hidden="true"></i> Submit</button>
+                <button class="k-button close-button btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Cancel</button>
+              </li>
+            </ul>
           </div>
+
         </div>
 
         <script type="text/x-kendo-template" id="createBoxTemplate">
@@ -66,5 +74,4 @@
       </div>
     </div>
   </div>
-</div>
 </div>
