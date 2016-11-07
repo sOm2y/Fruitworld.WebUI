@@ -92,14 +92,14 @@
           pageTitle: 'Example view'
         }
       })
-      // .state('boxStock', {
-      //   url: "/boxStock",
-      //   templateUrl: "app/stocks/boxstock.html",
-      //   controller: 'stockCtrl',
-      //   data: {
-      //     pageTitle: 'Example view'
-      //   }
-      // })
+      .state('boxStock', {
+        url: "/boxStock",
+        templateUrl: "app/stocks/boxstock.html",
+        controller: 'stockCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
       .state('shoppingCart', {
         url: "/cart",
         templateUrl: "app/shoppingCart/shoppingCart.html",
