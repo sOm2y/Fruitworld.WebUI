@@ -2,8 +2,8 @@
   'use strict';
   angular.module('fruitWorld')
     .controller('branchCtrl', ['$scope', 'uuid2',function($scope,uuid2) {
-      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      // var crudServiceBaseUrl = "http://localhost:64328/api/";
+      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      var crudServiceBaseUrl = "http://localhost:64328/api/";
 
       // DataSource
       var _dataSource = new kendo.data.DataSource({

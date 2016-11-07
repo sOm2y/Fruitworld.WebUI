@@ -1,17 +1,44 @@
 (function() {
   'use strict';
 
-  angular.module('fruitWorld').controller('stockCtrl',['$scope','uuid2', function($scope, uuid2){
+  angular.module('fruitWorld').controller('stockCtrl', [
+    '$scope',
+    'uuid2',
+    function($scope, uuid2) {
     // var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
     var crudServiceBaseUrl = "http://localhost:64328/api/";
+
+    // Product ForeignKey column
+    var products = getProducts();
+    var defaultProduct = getDefaultProduct();
+
+    function getProducts() {
+      var result = [];
+      $resource(crudServiceBaseUrl + "products/read/").query().$promise.then(function(products) {
+        _.forEach(products, function(product) {
+          result.push({"value": product.productId, "text": product.name});
+        });
+      });
+      console.log("Products:", result);
+      return result;
+    }
+
+    function getDefaultProduct() {
+      var result = [];
+      $resource(crudServiceBaseUrl + "products/read/").query().$promise.then(function(products) {
+        result.push(_.first(products));
+      });
+      console.log("Default Product:", result);
+      return result;
+    }
 
     // Product Stock DataSource
     var _productStockDataSource = new kendo.data.DataSource({
       pageSize:20,
       transport:{
         read:{
-          url: function(){
-            return crudServiceBaseUrl + 'stock/readproduct';
+          url: function(data){
+            return crudServiceBaseUrl + 'Stock/ReadProducts';
           },
           type: 'get',
           dataType: "json"
@@ -50,7 +77,8 @@
             },
             productId:{
               nullable: true,
-              editable: false
+              editable: false,
+              defaultValue: defaultProduct.productId
             },
             boxId:{
               nullable: true,
@@ -74,6 +102,46 @@
       }
     });
     // Product Stock DataSource End
+    //
+    // Product Stock Grid Option
+    $scope.productStockGridOptions = {
+      dataSource: _productStockDataSource,
+      filterable: true,
+      sortable: true,
+      pageable: true,
+      groupable: true,
+      columns:[
+        {field:"sku", title:"SKU"},
+        {field:"productId", title:"Name", values:products},
+        {field:"branchId", title:"Branch"},
+        {field:"quantity", title:"Quantity"},
+        {field:"inComing", title:"In Coming"}
+      ],
+      editable:"popup"
+    }
+    // Product Stock Grid End
+
+    // Box ForeignKey column
+    var boxes = getBoxes();
+    var defaultBox = getDefaultBox();
+
+    function getBoxes() {
+      var result = [];
+      $resource(crudServiceBaseUrl + "box/read/").query().$promise.then(function(boxes) {
+        _.forEach(boxes, function(box) {
+          result.push({"value": box.boxId, "text": box.boxName});
+        });
+      });
+      return result;
+    }
+
+    function getDefaultBox() {
+      var result = [];
+      $resource(crudServiceBaseUrl + "box/read/").query().$promise.then(function(boxes) {
+        result.push(_.first(boxes));
+      });
+      return result;
+    }
 
     // Box Stock DataSource
     var _boxStockDataSource = new kendo.data.DataSource({
@@ -81,7 +149,7 @@
       transport:{
         read:{
           url: function(){
-            return crudServiceBaseUrl + 'stock/readbox';
+            return crudServiceBaseUrl + 'stock/readboxes';
           },
           type: 'get',
           dataType: "json"
@@ -124,7 +192,8 @@
             },
             boxId:{
               nullable: true,
-              editable: false
+              editable: false,
+              defaultValue: defaultBox.boxId
             },
             branchId:{
               nullable:false,
@@ -141,21 +210,10 @@
             }
           }
         }
-      }
+      },
+      group:{field:"sku"}
     });
     // Box Stock DataSource End
-
-    // Product Stock Grid Option
-
-    $scope.productStockGridOptions = {
-      dataSource: _productStockDataSource,
-      filterable: true,
-      sortable: true,
-      pageable: true,
-      columns:[]
-    }
-
-    // Product Stock Grid End
 
 
     // Box Stock Grid
@@ -164,7 +222,14 @@
       filterable: true,
       sortable: true,
       pageable: true,
-      columns:[]
+      groupable: true,
+      columns:[{field:"sku",title:"SKU"},
+      {field:"boxId", title:"Name", values:boxes},
+      {field:"branchId", title:"Branch"},
+      {field:"quantity", title:"Quantity"},
+      {field:"inComing", title:"In Coming"}
+    ],
+    editable:"popup"
     }
     // Box Stock Grid End
 
