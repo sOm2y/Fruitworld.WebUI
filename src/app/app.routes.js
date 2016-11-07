@@ -87,7 +87,7 @@
       .state('productStock', {
         url: "/productStock",
         templateUrl: "app/stocks/productstock.html",
-        controller: 'stockCtrl',
+        controller: 'stocksCtrl',
         data: {
           pageTitle: 'Example view'
         }
@@ -95,7 +95,7 @@
       .state('boxStock', {
         url: "/boxStock",
         templateUrl: "app/stocks/boxstock.html",
-        controller: 'stockCtrl',
+        controller: 'stocksCtrl',
         data: {
           pageTitle: 'Example view'
         }

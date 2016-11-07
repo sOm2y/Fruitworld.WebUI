@@ -1,6 +1,6 @@
 (function() {
   'use strict ';
-  angular.module('app.services', [])
+  angular.module('fruitWorld.services', [])
     .factory('fruitWorldAPIService', ['$resource', '$http', function($resource, $http) {
       var apiUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       return $resource(apiUrl + ':section/:id', {

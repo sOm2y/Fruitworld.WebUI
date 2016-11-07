@@ -1,13 +1,16 @@
 (function() {
   'use strict';
 
-  angular.module('fruitWorld').controller('stockCtrl', [
+  angular.module('fruitWorld')
+  .controller('stocksCtrl', [
     '$scope',
     'uuid2',
-    function($scope, uuid2) {
-    // var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-    var crudServiceBaseUrl = "http://localhost:64328/api/";
-
+    '$resource',
+    '$state',
+    function($scope, uuid2, $resource, $state) {
+    var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+    //var crudServiceBaseUrl = "http://localhost:64328/api/";
+    console.log('stocks controller loaded!');
     // Product ForeignKey column
     var products = getProducts();
     var defaultProduct = getDefaultProduct();
