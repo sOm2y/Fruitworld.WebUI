@@ -9,6 +9,7 @@
       //var crudServiceBaseUrl = "http://localhost:64328/api/";
       $scope.mainGridOptions = {
         dataSource: new kendo.data.DataSource({
+          pageSize: 20,
           transport: {
             read: {
               url: function(data) {
@@ -252,6 +253,7 @@
       var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       $scope.discountGridOption = {
         dataSource: {
+          pageSize: 20,
           transport: {
             read: {
               url: function(data) {
@@ -395,9 +397,5 @@
       $scope.backToProduct = function() {
         $state.go('products');
       };
-
-    }])
-    .controller('stockCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
-
     }]);
 })();
