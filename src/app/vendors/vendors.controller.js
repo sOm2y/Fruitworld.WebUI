@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  angular.module('fruitWorld').controller('branchCtrl', [
+  angular.module('fruitWorld').controller('vendorCtrl', [
     '$scope',
     'uuid2',
     '$resource',
@@ -9,6 +9,14 @@
     function($scope, uuid2, $resource, $state, fruitWorldAPIService) {
       //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       var crudServiceBaseUrl = "http://localhost:64328/api/";
+
+      var contact = [];
+      fruitWorldAPIService.query({
+        section:'contact/read'
+      })
+      .$promise.then(function(res){
+        contact.push(_.head(res));
+      });
 
       // DataSource
       var _dataSource = new kendo.data.DataSource({
