@@ -120,7 +120,7 @@
             text: "NEW Order"
           }
         ],
-        detailInit: detailInit,
+        // detailInit: detailInit,
         dataBound: function() {
           this.expandRow(this.tbody.find("tr.k-master-row").first());
         },
