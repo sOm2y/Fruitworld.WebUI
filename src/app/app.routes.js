@@ -100,6 +100,14 @@
           pageTitle: 'Example view'
         }
       })
+      .state('vendors', {
+        url: "/vendors",
+        templateUrl: "app/vendors/vendors.html",
+        controller: 'vendorCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
       .state('shoppingCart', {
         url: "/cart",
         templateUrl: "app/shoppingCart/shoppingCart.html",

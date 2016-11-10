@@ -6,22 +6,21 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox">
-        <div class="ibox-title">Box Stock List</div>
+        <div class="ibox-title">Vendor List</div>
         <div class="ibox-content">
           <!-- grid element -->
           <kendo-grid options="mainGridOptions">
           </kendo-grid>
+        </div>
 
-          <script type="text/x-kendo-template" id="vendorPopupTemplate">
-            #if(data.isNew()) {# #var createTemp = kendo.template($("\#createTemplate").html());# #=createTemp(data)# #} else {# #var createTemp = kendo.template($("\#editTemplate").html());# #=createTemp(data)# #}#
-          </script>
-          <script type="text/x-kendo-template" id="createTemplate">
-            <ul class="fieldlist">
+        <!-- Vendor Popup Template -->
+        <script type="text/x-kendo-template" id="vendorPopupTemplate">
+          <ul class="fieldlist">
               <!-- textbox editor for field: contactId -->
               <li>
                 <label for="contactId" class="required">Vendor ID</label>
               </li>
-              <li><input type="text" id="contactId" class="k-input k-textbox" placeholder="Vendor ID" data-bind="value: contactId" required style="width: 100%;">
+              <li><input type="text" id="contactId" class="k-input k-textbox" placeholder="Mobile Number" data-bind="value: contactId" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="contactId"></span>
               </li>
               <!-- textbox editor for field: name -->
@@ -33,72 +32,62 @@
               </li>
               <!-- textbox editor for field: title -->
               <li>
-                <label for="title" class="required">Title</label>
+                <label for="title" class="required">Vendor ID</label>
               </li>
-              <li>
-              <input data-role="dropdownlist"
-                   data-auto-bind="false"
-                   data-value-primitive="true"
-                   id="title"
-                   data-bind="value: contact.title, source:['Miss','Mrs.','Ms.', 'Mr.']"
-                   required
-                   style="width: 100%;">
+              <li><input type="text" id="title" class="k-input k-textbox" placeholder="Vendor ID" data-bind="value: title" required style="width: 100%;">
+                <span class="k-invalid-msg" data-for="title"></span>
               </li>
               <!-- textbox editor for field: firstName -->
               <li>
                 <label for="firstName" class="required">First Name</label>
               </li>
-              <li><input type="text" id="firstName" class="k-input k-textbox" placeholder="First name" data-bind="value: contact.firstName" required style="width: 100%;">
+              <li><input type="text" id="firstName" class="k-input k-textbox" placeholder="First name" data-bind="value: firstName" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="firstName"></span>
               </li>
               <!-- textbox editor for field: middleName -->
               <li>
-                <label for="middleName" >Middle Name</label>
+                <label for="middleName">Middle Name</label>
               </li>
-              <li><input type="text" id="middleName" class="k-input k-textbox" placeholder="Middle name" data-bind="value: contact.middleName" required style="width: 100%;">
+              <li><input type="text" id="middleName" class="k-input k-textbox" placeholder="Middle name" data-bind="value: middleName" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="middleName"></span>
               </li>
               <!-- textbox editor for field: lastName -->
               <li>
                 <label for="lastName" class="required">Last Name</label>
               </li>
-              <li><input type="text" id="lastName" class="k-input k-textbox" placeholder="Last name" data-bind="value: contact.lastName" required style="width: 100%;">
+              <li><input type="text" id="lastName" class="k-input k-textbox" placeholder="Last name" data-bind="value: lastName" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="lastName"></span>
               </li>
-                <!-- textbox editor for field: phone -->
+              <!-- textbox editor for field: phone -->
               <li>
                 <label for="phone" class="required">Phone</label>
               </li>
-              <li><input type="tel" id="phone" class="k-input k-textbox" placeholder="Phone number" data-bind="value: contant.phone" required style="width: 100%;">
+              <li><input type="tel" id="phone" class="k-input k-textbox" placeholder="Phone number" data-bind="value: phone" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="phone"></span>
               </li>
               <!-- textbox editor for field: company -->
               <li>
                 <label for="company" class="required">Company</label>
               </li>
-              <li><input type="text" id="company" class="k-input k-textbox" placeholder="Company name" data-bind="value: contact.company" required style="width: 100%;">
+              <li><input type="text" id="company" class="k-input k-textbox" placeholder="Company name" data-bind="value: company" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="company"></span>
               </li>
               <!-- textbox editor for field: type -->
               <li>
                 <label for="type" class="required">Company</label>
               </li>
-              <li><input type="text" id="type" class="k-input k-textbox" placeholder="Supplier" data-bind="value: contact.type" required style="width: 100%;">
+              <li><input type="text" id="type" class="k-input k-textbox" placeholder="Supplier" data-bind="value: type" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="type"></span>
               </li>
               <!-- textbox editor for field: vipLevel -->
               <li>
                 <label for="vipLevel" class="required">Company</label>
               </li>
-              <li><input data-role="numerictextbox" id="vipLevel" data-format="n" data-min="0" data-max"10" data-bind="value: contact.vipLevel" required style="width: 100%;">
+              <li><input data-role="numerictextbox" id="vipLevel" data-format="n" data-min="0" data-max "10" data-bind="value: vipLevel" required style="width: 100%;">
                 <span class="k-invalid-msg" data-for="vipLevel"></span>
               </li>
-            </ul>
-          </script>
-          <script type="text/x-kendo-template" id="editTemplate">
-            <input id="products" style="margin-left:10px">
-          </script>
-        </div>
+          </ul>
+        </script>
       </div>
     </div>
   </div>

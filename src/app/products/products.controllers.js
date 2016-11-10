@@ -5,8 +5,8 @@
   angular.module('fruitWorld')
 
     .controller('productCtrl', ['shoppingCartService','$rootScope', '$scope', '$state', 'uuid2', function(shoppingCartService,$rootScope, $scope, $state, uuid2) {
-      var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
-      //var crudServiceBaseUrl = "http://localhost:64328/api/";
+      //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      var crudServiceBaseUrl = "http://localhost:64328/api/";
       $scope.mainGridOptions = {
         dataSource: new kendo.data.DataSource({
           pageSize: 20,

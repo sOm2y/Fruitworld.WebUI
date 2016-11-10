@@ -10,13 +10,19 @@
       //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       var crudServiceBaseUrl = "http://localhost:64328/api/";
 
-      var contact = [];
+      var titles = [];
       fruitWorldAPIService.query({
-        section:'contact/read'
-      })
-      .$promise.then(function(res){
-        contact.push(_.head(res));
-      });
+          section: '/Vendor/ReadTitle'
+        })
+        .$promise.then(function(res) {
+          _.forEach(res, function(value) {
+              titles.push({title:value})
+          });
+          console.log("titles:", titles);
+        }, function(err) {
+          console.log(err);
+        });
+          console.log("Titles",titles);
 
       // DataSource
       var _dataSource = new kendo.data.DataSource({
@@ -83,12 +89,6 @@
               name: {
                 type: "string"
               },
-              contact: {
-                defaultValue: {
-                  contactId: contact.contactId,
-                  fullName: contact.fullName
-                }
-              }
             }
           }
         }
@@ -96,7 +96,7 @@
       // -- DataSource END
 
       // Branch Grid Option
-      $scope.branchGridOptions = {
+      $scope.mainGridOptions = {
         dataSource: _dataSource,
         filterable: true,
         sortable: true,
@@ -111,14 +111,19 @@
           {
             field: "contactId",
             title: "Contact ID"
-          },
-          {
+          }, {
             field: "name",
             title: "Vendor Name"
-          }, {
-            field: "contact",
+          },{
+            field:"title",
+            title:"Title"
+          },
+          {
+            field: "fullName",
             title: "Contact Name",
-            template:"#=contact.fullName#"
+          },{
+            field:"phone",
+            title:"Phone Number"
           }, {
             command: [
               "edit", "destroy"
