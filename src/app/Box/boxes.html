@@ -1,77 +1,76 @@
-<div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row">
-    <div class="col-lg-12"></div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="ibox">
-        <div class="ibox-title">Box List</div>
-        <div class="ibox-content">
-          <!-- grid element -->
-          <kendo-grid options="boxGridOptions">
-          </kendo-grid>
-          <div kendo-window="boxWindow">
-            <ul class="fieldlist" id="popupBox">
-              textbox editor for field: Barcode
-              <li>
-                <label class="required">Barcode</label>
-              </li>
-              <li><input type="text" id="boxBarcode" required class="k-input k-textbox" ng-model="newBox.barcode" placeholder="Barcode" style="width: 100%">
-                <span class="k-invalid-msg" data-for="boxBarcode"></span>
-              </li>
-              numerictextbox editor for field: UnitPrice
-              <li><label class="required">Unit Price</label></li>
-              <li><input id="boxUnitPrice" type="number" ng-model="newBox.unitPrice" value="0" required style="width: 100%">
-                <span class="k-invalid-msg" data-for="boxUnitPrice"></span>
-              </li>
-              CheckBox editor for field: inGst
-              <li><input type="checkbox" id="boxIncGst" class="k-checkbox" checked="checked" ng-model="newBox.incGst" required>
-                <label for="boxIncGst" class="k-checkbox-label">Inc. GST</label>
-              </li>
-              dropDownList editor for field: Size
-              <li><label for="boxSize">Size</label></li>
-              <li>
-              <select kendo-combo-box
-                     k-placeholder="'Select Size'"
-                     k-data-text-field="'sizeName'"
-                     k-data-value-field="'sizeName'"
-                     k-filter="'contains'"
-                     k-auto-bind="false"
-                     k-data-source="boxSizeSource"
-                     style="width: 100%"
-                     ng-model="newBox.size"
-                     >
+  <div class="wrapper wrapper-content animated fadeInRight" ng-hide="currentState === 'boxes.details'">
+    <div class="row">
+      <div class="col-lg-12"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox">
+          <div class="ibox-title">Box List</div>
+          <div class="ibox-content">
+            <!-- grid element -->
+            <kendo-grid options="boxGridOptions">
+            </kendo-grid>
+            <div kendo-window="boxWindow" k-visible="false">
+              <ul class="fieldlist" id="popupBox">
+                <li>
+                  <label class="required">Box Name</label>
+                </li>
+                <li><input type="text" id="boxName" required class="k-input k-textbox" ng-model="newBox.boxName" placeholder="Box Name" style="width: 100%">
+                  <span class="k-invalid-msg" data-for="boxName"></span>
+                </li>
+
+                <li>
+                  <label class="required">Barcode</label>
+                </li>
+                <li><input type="text" id="boxBarcode" required class="k-input k-textbox" ng-model="newBox.barcode" placeholder="Barcode" style="width: 100%">
+                  <span class="k-invalid-msg" data-for="boxBarcode"></span>
+                </li>
+
+                <li><label class="required">Unit Price</label></li>
+                <li><input id="boxUnitPrice" type="number" ng-model="newBox.unitPrice" value="0" required style="width: 100%">
+                  <span class="k-invalid-msg" data-for="boxUnitPrice"></span>
+                </li>
+
+                <li><input type="checkbox" id="boxIncGst" class="k-checkbox" checked="checked" ng-model="newBox.incGst" required>
+                  <label for="boxIncGst" class="k-checkbox-label">Inc. GST</label>
+                </li>
+
+                <li><label for="boxSize">Size</label></li>
+                <li>
+                  <select kendo-combo-box k-placeholder="'Select Size'" k-data-text-field="'sizeName'" k-data-value-field="'sizeName'" k-filter="'contains'" k-auto-bind="false" k-data-source="boxSizeSource" style="width: 100%" ng-model="newBox.size">
              </select>
-              </li>
+                </li>
 
-              textbox editor for field: boxDescription
-              <li>
-                <label for="boxDescription">Description</label>
-              </li>
-              <li><input type="text" id="boxDescription" class="k-input k-textbox" ng-model="newBox.description" placeholder="Description" required style="width: 100%">
-                <span class="k-invalid-msg" data-for="boxDescription"></span>
-              </li>
+                <li>
+                  <label for="boxDescription">Description</label>
+                </li>
+                <li><input type="text" id="boxDescription" class="k-input k-textbox" ng-model="newBox.description" placeholder="Description" required style="width: 100%">
+                  <span class="k-invalid-msg" data-for="boxDescription"></span>
+                </li>
 
-              <li><label for="localBoxContentGrid">Product List</label></li>
-              <li>
-                <div id="localBoxContentGrid"></div>
-              </li>
-              <li class="pull-right">
-                <button class="k-button btn btn-info" ng-click="submitBoxClick(newBox)"><i class="fa fa-plus-circle" aria-hidden="true"></i> Submit</button>
-                <button class="k-button close-button btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Cancel</button>
-              </li>
-            </ul>
+                <li><label for="localBoxContentGrid">Product List</label></li>
+                <li>
+                  <div id="localBoxContentGrid"></div>
+                </li>
+                <li class="pull-right">
+                  <button class="k-button btn btn-info" ng-click="submitBoxClick(newBox)"><i class="fa fa-plus-circle" aria-hidden="true"></i> Submit</button>
+                  <button class="k-button close-button btn btn-danger" ng-click="closeBoxWindow()"><i class="fa fa-trash-o" aria-hidden="true"></i> Cancel</button>
+                </li>
+              </ul>
+            </div>
+
           </div>
 
+          <script type="text/x-kendo-template" id="createBoxTemplate">
+            <div class="toolbar">
+              <button class="k-button" ng-click="createBoxClick()"><i class="fa fa-plus" aria-hidden="true"></i> New Box</button>
+            </div>
+          </script>
         </div>
-
-        <script type="text/x-kendo-template" id="createBoxTemplate">
-          <div class="toolbar">
-            <button class="k-button" ng-click="createBoxClick()"><i class="fa fa-plus" aria-hidden="true"></i> New Box</button>
-          </div>
-        </script>
       </div>
     </div>
   </div>
+<div ui-view="box-details-view" ng-if="currentState === 'boxes.details'">
 </div>
