@@ -110,24 +110,26 @@
       this.addProduct = function(newProduct) {
         if (localStorage.getItem('countedShoppingCart')) {
           var oldShoppingCart = JSON.parse(localStorage.getItem('countedShoppingCart'));
-          updateProductIndex = _.findIndex(oldShoppingCart, function(oldProduct) { return oldProduct.productId === newProduct.productId; });
-          if(updateProductIndex !== -1){
+          updateProductIndex = _.findIndex(oldShoppingCart, function(oldProduct) {
+            return oldProduct.productId === newProduct.productId;
+          });
+          if (updateProductIndex !== -1) {
             // oldShoppingCart[updateProductIndex].product.push(newProduct);
             oldShoppingCart[updateProductIndex].quantity++;
-          }else{
+          } else {
             oldShoppingCart.push({
-              productId:newProduct.productId,
-              product:newProduct,
-              quantity:1
+              productId: newProduct.productId,
+              product: newProduct,
+              quantity: 1
             })
           }
           localStorage.setItem('countedShoppingCart', JSON.stringify(oldShoppingCart));
         } else {
           var newShoppingCart = [];
           newShoppingCart.push({
-            productId:newProduct.productId,
-            product:newProduct,
-            quantity:1
+            productId: newProduct.productId,
+            product: newProduct,
+            quantity: 1
           });
           localStorage.setItem('countedShoppingCart', JSON.stringify(newShoppingCart));
         }
@@ -180,6 +182,23 @@
         });
         localStorage.setItem('countedShoppingCart', JSON.stringify(newShoppingCart));
         return newShoppingCart;
+      };
+
+    }])
+    .service('loginModal', ['$uibModal', '$rootScope', function($uibModal, $rootScope) {
+
+      function assignCurrentUser(user) {
+        $rootScope.currentUser = user;
+        return user;
+      }
+
+      return function() {
+        var instance =  $uibModal.open({
+          templateUrl: 'app/login/loginModal.html',
+          controller: 'LoginModalCtrl'
+        });
+
+        return instance.result.then(assignCurrentUser);
       };
 
     }]);

@@ -10,7 +10,10 @@
       .state('dashboard', {
         url: "/dashboard",
         templateUrl: "app/dashboard/dashboard.html",
-        controller: 'dashboardCtrl'
+        controller: 'dashboardCtrl',
+        data: {
+           requireLogin: true
+        }
       })
       .state('orders', {
         url: "/orders",
