@@ -112,22 +112,24 @@
           var oldShoppingCart = JSON.parse(localStorage.getItem('countedShoppingCart'));
           updateProductIndex = _.findIndex(oldShoppingCart, function(oldProduct) { return oldProduct.productId === newProduct.productId; });
           if(updateProductIndex !== -1){
-            oldShoppingCart[updateProductIndex].product.push(newProduct);
-            oldShoppingCart[updateProductIndex].count++;
+            // oldShoppingCart[updateProductIndex].product.push(newProduct);
+            oldShoppingCart[updateProductIndex].quantity++;
           }else{
-            var newProducts = [];
-            newProducts.push(newProduct);
             oldShoppingCart.push({
               productId:newProduct.productId,
-              product:newProducts,
-              count:newProducts.length
+              product:newProduct,
+              quantity:1
             })
           }
           localStorage.setItem('countedShoppingCart', JSON.stringify(oldShoppingCart));
         } else {
           var newShoppingCart = [];
-          newShoppingCart.push(newProduct);
-          localStorage.setItem('countedShoppingCart', JSON.stringify(this.countDuplicateProducts(newShoppingCart)));
+          newShoppingCart.push({
+            productId:newProduct.productId,
+            product:newProduct,
+            quantity:1
+          });
+          localStorage.setItem('countedShoppingCart', JSON.stringify(newShoppingCart));
         }
       };
 
@@ -156,7 +158,7 @@
             return {
               productId: productId,
               product: products,
-              count: products.length
+              quantity: products.length
             };
           }).value();
         return result;
@@ -166,8 +168,8 @@
         $rootScope.totalPrice = 0;
         $rootScope.totalCount = 0;
         return _.each(productsInCart, function(product) {
-          $rootScope.totalPrice = $rootScope.totalPrice + product.product[0].listPrice * product.count;
-          $rootScope.totalCount = $rootScope.totalCount + parseInt(product.count);
+          $rootScope.totalPrice = $rootScope.totalPrice + product.product.listPrice * product.quantity;
+          $rootScope.totalCount = $rootScope.totalCount + parseInt(product.quantity);
           // console.log("total count "+ $rootScope.totalCount+"product count "+product.count);
         });
       };
