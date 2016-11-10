@@ -10,19 +10,27 @@
       //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       var crudServiceBaseUrl = "http://localhost:64328/api/";
 
-      var titles = [];
-      fruitWorldAPIService.query({
-          section: '/Vendor/ReadTitle'
-        })
-        .$promise.then(function(res) {
-          _.forEach(res, function(value) {
-              titles.push({title:value})
-          });
-          console.log("titles:", titles);
-        }, function(err) {
-          console.log(err);
+      $scope.titleDataSource = [];
+      fruitWorldAPIService.query({section: '/Vendor/ReadTitle'}).$promise.then(function(res) {
+        _.forEach(res, function(value) {
+          $scope.titleDataSource.push({title: value})
         });
-          console.log("Titles",titles);
+        console.log("titles:", $scope.titleDataSource);
+      }, function(err) {
+        console.log(err);
+      });
+
+      $scope.contactDataSource = new kendo.data.DataSource({
+        transport:{
+          read:{
+            url: function(data) {
+              return crudServiceBaseUrl + "contact/read";
+            },
+            type: "GET",
+            dataType: "json"
+          }
+        }
+      });
 
       // DataSource
       var _dataSource = new kendo.data.DataSource({
@@ -84,11 +92,14 @@
                 defaultValue: uuid2.newuuid()
               },
               contactId: {
-                defaultValue: uuid2.newuuid()
+                type:"string",
+                validation:{
+                  required: true
+                }
               },
               name: {
                 type: "string"
-              },
+              }
             }
           }
         }
@@ -114,16 +125,15 @@
           }, {
             field: "name",
             title: "Vendor Name"
-          },{
-            field:"title",
-            title:"Title"
-          },
-          {
+          }, {
+            field: "title",
+            title: "Title"
+          }, {
             field: "fullName",
-            title: "Contact Name",
-          },{
-            field:"phone",
-            title:"Phone Number"
+            title: "Contact Name"
+          }, {
+            field: "phone",
+            title: "Phone Number"
           }, {
             command: [
               "edit", "destroy"
