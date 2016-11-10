@@ -261,7 +261,7 @@
       <div style="padding: 1em">
         <div>
           <h4>Upload files</h4>
-          <input name="files" type="file" kendo-upload k-async="{ saveUrl: 'http://fruitworldwebapi.azurewebsites.net/api/image/upload/'+productDataItem.productId, removeUrl: 'remove', autoUpload: false }" k-select="onSelect"/>
+          <input name="files" type="file" kendo-upload k-async="{ saveUrl: 'http://fruitworldwebapi.azurewebsites.net/api/image/upload/'+productDataItem.productId, removeUrl: 'remove', autoUpload: false, withCredentials:false }" k-select="onSelect"/>
         </div>
         <div style="padding-top: 1em;">
           <h4>Console</h4>
