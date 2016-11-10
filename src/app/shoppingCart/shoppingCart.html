@@ -22,15 +22,15 @@
                                 <td class="desc">
                                     <h3>
                                         <a href="#" class="text-navy">
-                                            {{product.product[0].name}}
+                                            {{product.product.name}}
                                         </a>
                                     </h3>
                                     <p class="small">
-                                      {{product.product[0].description}}
+                                      {{product.product.description}}
                                     </p>
                                     <dl class="small m-b-none">
                                         <dt>Description lists</dt>
-                                        <dd>A  {{product.product[0].description}}</dd>
+                                        <dd>A  {{product.product.description}}</dd>
                                     </dl>
 
                                     <div class="m-t-sm">
@@ -41,15 +41,15 @@
                                 </td>
 
                                 <td>
-                                      {{product.product[0].listPrice| currency}}
-                                    <s class="small text-muted">{{product.product[0].listPrice | currency}}</s>
+                                      {{product.product.listPrice| currency}}
+                                    <s class="small text-muted">{{product.product.listPrice | currency}}</s>
                                 </td>
                                 <td width="65">
-                                    <input type="text" class="form-control" ng-model="product.count" ng-change="updateProductCount($index,product)">
+                                    <input type="text" class="form-control" ng-model="product.quantity" ng-change="updateProductCount($index,product)">
                                 </td>
                                 <td>
                                     <h4>
-                                        {{product.product[0].listPrice * product.count| currency}}
+                                        {{product.product.listPrice * product.quantity| currency}}
                                     </h4>
                                 </td>
                             </tr>
@@ -60,8 +60,8 @@
                 </div>
                 <div class="ibox-content">
 
-                    <button class="btn btn-white" ng-click="addToBox(countedProducts)"><i class="fa fa fa-th"></i> Add to Box</button>
-                    <button class="btn btn-white" ng-click="addToOrder(countedProducts)"><i class="fa fa-inbox"></i> Add to Order</button>
+                    <button class="btn btn-white" ng-click="createBoxClick()"><i class="fa fa fa-th"></i> Add to Box</button>
+                    <button class="btn btn-white" ng-click="createOrderClick()"><i class="fa fa-inbox"></i> Add to Order</button>
                     <button ng-if="hasShoppingCartChanged" class="btn btn-primary pull-right" ng-click="updateShoppingCart(countedProducts)"><i class="fa fa-shopping-cart"></i> Update Shopping Cart</button>
 
                 </div>
@@ -84,73 +84,115 @@
 
                     </h2>
 
-                    <hr/>
-                            <span class="text-muted small">
-                                *For United States, France and Germany applicable sales tax will be applied
-                            </span>
-                    <div class="m-t-sm">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a>
-                            <a href="#" class="btn btn-white btn-sm"> Cancel</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>Support</h5>
-                </div>
-                <div class="ibox-content text-center">
-
-
-
-                    <h3><i class="fa fa-phone"></i> +43 100 783 001</h3>
-                            <span class="small">
-                                Please contact with us if you have any questions. We are avalible 24h.
-                            </span>
-
 
                 </div>
             </div>
 
-            <div class="ibox">
-                <div class="ibox-content">
 
-                    <p class="font-bold">
-                        Other products you may be interested
-                    </p>
-
-                    <hr/>
-                    <div>
-                        <a href="#" class="product-name"> Product 1</a>
-                        <div class="small m-t-xs">
-                            Many desktop publishing packages and web page editors now.
-                        </div>
-                        <div class="m-t text-righ">
-
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div>
-                        <a href="#" class="product-name"> Product 2</a>
-                        <div class="small m-t-xs">
-                            Many desktop publishing packages and web page editors now.
-                        </div>
-                        <div class="m-t text-righ">
-
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
         </div>
     </div>
 
 
+</div>
+
+<div kendo-window="shoppingCartBoxWindow" k-visible="false">
+  <ul class="fieldlist" id="popupBox">
+    <li>
+      <label class="required">Box Name</label>
+    </li>
+    <li><input type="text" id="boxName" required class="k-input k-textbox" ng-model="newBox.boxName" placeholder="Box Name" style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxName"></span>
+    </li>
+
+    <li>
+      <label class="required">Barcode</label>
+    </li>
+    <li><input type="text" id="boxBarcode" required class="k-input k-textbox" ng-model="newBox.barcode" placeholder="Barcode" style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxBarcode"></span>
+    </li>
+
+    <li><label class="required">Unit Price</label></li>
+    <li><input id="boxUnitPrice" type="number" ng-model="newBox.unitPrice" value="0" required style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxUnitPrice"></span>
+    </li>
+
+    <li><input type="checkbox" id="boxIncGst" class="k-checkbox" checked="checked" ng-model="newBox.incGst" required>
+      <label for="boxIncGst" class="k-checkbox-label">Inc. GST</label>
+    </li>
+
+    <li><label for="boxSize">Size</label></li>
+    <li>
+      <select kendo-combo-box k-placeholder="'Select Size'" k-data-text-field="'sizeName'" k-data-value-field="'sizeName'" k-filter="'contains'" k-auto-bind="false" k-data-source="boxSizeSource" style="width: 100%" ng-model="newBox.size">
+ </select>
+    </li>
+
+    <li>
+      <label for="boxDescription">Description</label>
+    </li>
+    <li><input type="text" id="boxDescription" class="k-input k-textbox" ng-model="newBox.description" placeholder="Description" required style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxDescription"></span>
+    </li>
+
+    <li><label for="localBoxContentGrid">Product List</label></li>
+    <li>
+      <div id="localBoxContentGrid"></div>
+    </li>
+    <li class="pull-right">
+      <button class="k-button btn btn-info" ng-click="convertToBox(newBox)"><i class="fa fa-plus-circle" aria-hidden="true"></i> Submit</button>
+      <button class="k-button close-button btn btn-danger" ng-click="closeBoxWindow()"><i class="fa fa-trash-o" aria-hidden="true"></i> Cancel</button>
+    </li>
+  </ul>
+</div>
+
+
+<div kendo-window="shoppingCartOrderWindow" k-visible="false">
+  <ul class="fieldlist" id="popupBox">
+    <li>
+      <label class="required">Ship Name</label>
+    </li>
+    <li><input type="text" id="boxName" required class="k-input k-textbox" ng-model="newBox.boxName" placeholder="Box Name" style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxName"></span>
+    </li>
+
+    <li>
+      <label class="required">Ship Address</label>
+    </li>
+    <li><input type="text" id="boxBarcode" required class="k-input k-textbox" ng-model="newBox.barcode" placeholder="Barcode" style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxBarcode"></span>
+    </li>
+
+    <li><label class="required">Freight</label></li>
+    <li><input id="boxUnitPrice" type="number" ng-model="newBox.unitPrice" value="0" required style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxUnitPrice"></span>
+    </li>
+
+    <li><input type="checkbox" id="boxIncGst" class="k-checkbox" checked="checked" ng-model="newBox.incGst" required>
+      <label for="boxIncGst" class="k-checkbox-label">Inc. GST</label>
+    </li>
+
+    <li><label for="boxSize">Size</label></li>
+    <li>
+      <select kendo-combo-box k-placeholder="'Select Size'" k-data-text-field="'sizeName'" k-data-value-field="'sizeName'" k-filter="'contains'" k-auto-bind="false" k-data-source="boxSizeSource" style="width: 100%" ng-model="newBox.size">
+ </select>
+    </li>
+
+    <li>
+      <label for="boxDescription">Description</label>
+    </li>
+    <li><input type="text" id="boxDescription" class="k-input k-textbox" ng-model="newBox.description" placeholder="Description" required style="width: 100%">
+      <span class="k-invalid-msg" data-for="boxDescription"></span>
+    </li>
+
+    <li><label for="localBoxContentGrid">Product List</label></li>
+    <li>
+      <div id="localBoxContentGrid"></div>
+    </li>
+    <li class="pull-right">
+      <button class="k-button btn btn-info" ng-click="convertToOrder(newBox)"><i class="fa fa-plus-circle" aria-hidden="true"></i> Submit</button>
+      <button class="k-button close-button btn btn-danger" ng-click="closeBoxWindow()"><i class="fa fa-trash-o" aria-hidden="true"></i> Cancel</button>
+    </li>
+  </ul>
 </div>
 
 <script id="notificationTemplate" type="text/x-kendo-template">
