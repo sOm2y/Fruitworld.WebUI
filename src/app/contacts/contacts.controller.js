@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  angular.module('fruitWorld').controller('vendorCtrl', [
+  angular.module('fruitWorld').controller('ContactCtrl', [
     '$scope',
     'uuid2',
     '$resource',
@@ -10,43 +10,53 @@
       //var crudServiceBaseUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
       var crudServiceBaseUrl = "http://localhost:64328/api/";
 
+      console.log("Contact Ctrl Loading success...");
       $scope.titleDataSource = [];
-      fruitWorldAPIService.query({section: '/contant/readtitle'}).$promise.then(function(res) {
+      fruitWorldAPIService.query({section: '/contact/readtitle'}).$promise.then(function(res) {
         _.forEach(res, function(value) {
-          $scope.titleDataSource.push({title: value})
+          $scope.titleDataSource.push({"title": value})
         });
         console.log("titles:", $scope.titleDataSource);
       }, function(err) {
         console.log(err);
       });
 
-      $scope.contactDataSource = new kendo.data.DataSource({
+      var defaultAddress = [];
+      fruitWorldAPIService.query({section: '/address/read'}).$promise.then(function(res) {
+        defaultAddress.push(_.head(res));
+      }, function(err) {
+        console.log(err);
+      });
+
+      // Addresses DataSource
+      var _addressDataSource = new kendo.data.DataSource({
+        pageSize:10,
         transport:{
           read:{
-            url: function(data) {
-              return crudServiceBaseUrl + "contact/read";
+            url: function(){
+              return crudServiceBaseUrl + "address/read"
             },
-            type: "GET",
-            dataType: "json"
+            type:"get",
+            "dataType":"json"
           }
         }
       });
 
-      // DataSource
+      // Contacts DataSource
       var _dataSource = new kendo.data.DataSource({
-        pageSize: 20,
+        pageSize: 10,
         transport: {
           read: {
             url: function(data) {
-              return crudServiceBaseUrl + "contact/read";
+              return crudServiceBaseUrl + "Contact/Read";
             },
             type: "GET",
             dataType: "json"
           },
           create: {
             url: function(data) {
-              console.log("Vendor Create:", data);
-              return crudServiceBaseUrl + "contact/create";
+              console.log("Contact Create:", data);
+              return crudServiceBaseUrl + "Contact/Create";
             },
             dataType: "json",
             type: "post",
@@ -55,9 +65,9 @@
           },
           update: {
             url: function(data) {
-              console.log("Vendor ID", data.contactId);
+              console.log("Contact ID", data.contactId);
               console.log("Update:", data);
-              return crudServiceBaseUrl + "contact/update/?id=" + data.contactId;
+              return crudServiceBaseUrl + "Contact/update/?id=" + data.contactId;
             },
             dataType: "json",
             type: "put",
@@ -66,7 +76,7 @@
           },
           destroy: {
             url: function(data) {
-              return crudServiceBaseUrl + "contact/delete/?id=" + data.contactId;
+              return crudServiceBaseUrl + "Contact/delete/?id=" + data.contactId;
             },
             type: "DELETE",
             dataType: "json",
@@ -87,16 +97,12 @@
             id: "contactId",
             fields: {
               contactId: {
-                type:"string",
-                validation:{
-                  required:true
-                }
+                editable: false,
+                nullable: false,
+                defaultValue: uuid2.newuuid()
               },
-              vipLevel: {
-                type: "number"
-              },
-              active:{
-                type:"boolean"
+              active: {
+                type: "boolean"
               }
             }
           }
@@ -104,8 +110,8 @@
       });
       // -- DataSource END
 
-      // Branch Grid Option
-      $scope.mainGridOptions = {
+      // Contact Grid Option
+      $scope.contactGridOptions = {
         dataSource: _dataSource,
         filterable: true,
         sortable: true,
@@ -118,40 +124,30 @@
         ],
         columns: [
           {
-            field: "contactId",
+            field: "mobile",
             title: "Contact ID"
-          },{
+          }, {
             field: "title",
             title: "Title"
           }, {
             field: "fullName",
-            title: "Name"
-          },{
-            field: "jobTitle",
-            title: "Job Title"
+            title: "Contact Name"
           }, {
-            field: "mobile",
-            title: "Mobile"
-          },
-          {
             field: "phone",
-            title: "Phone Number"
-          }, ,
-          {
-            field: "company",
-            title: "Company"
-          },,
-          {
-            field: "active",
-            title: "Active"
-          },
-          {
+            title: "Phone"
+          }, {
+            field: "jobTitle",
+            title: "jobTitle"
+          }, {
             field: "type",
             title: "Type"
           },{
-            field: "vipLevel",
-            title: "Level"
-          },{
+            field: "company",
+            title: "Company"
+          }, {
+            field: "fullAddress",
+            title: "Address"
+          }, {
             command: [
               "edit", "destroy"
             ],
@@ -163,7 +159,5 @@
           template: kendo.template($("#contactPopupTemplate").html())
         }
       };
-
-    }
-  ]);
+    }]);
 }());

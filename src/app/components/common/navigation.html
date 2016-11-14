@@ -34,13 +34,13 @@
         <a ui-sref="orders"><i class="fa fa-inbox"></i><span class="nav-label">Orders</span></a>
       </li>
       <li ui-sref-active="active">
+        <a ui-sref="contacts"><i class="fa fa-weixin" aria-hidden="true"></i>Contacts</span></a>
+      </li>
+      <li ui-sref-active="active">
         <a ui-sref="vendors"><i class="fa fa-users" aria-hidden="true"></i>Vendors</span></a>
       </li>
       <li ui-sref-active="active">
         <a ui-sref="parcel"><i class="fa fa-archive" aria-hidden="true"></i><span class="nav-label">Parcel</span> </a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="branch"><i class="fa fa-globe" aria-hidden="true"></i><span class="nav-label">Branch Setting</span></a>
       </li>
       <li ng-class="{active: $state.includes('stock')}">
         <a href="#"><i class="fa fa-stack-overflow" aria-hidden="true"></i><span class="nav-label">Stock</span><span class="fa arrow"></span></a>
@@ -48,6 +48,9 @@
           <li ui-sref-active="active"><a ui-sref="productStock">Product Stock</a></li>
           <li ui-sref-active="active"><a ui-sref="boxStock">Box Stock</a></li>
         </ul>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="branch"><i class="fa fa-globe" aria-hidden="true"></i><span class="nav-label">Branch Setting</span></a>
       </li>
       <li ui-sref-active="active">
         <a ui-sref="setting"><i class="fa fa-cogs" aria-hidden="true"></i><span class="nav-label">Setting</span></a>

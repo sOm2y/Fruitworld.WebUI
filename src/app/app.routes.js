@@ -108,6 +108,14 @@
           pageTitle: 'Example view'
         }
       })
+      .state('contacts', {
+        url: "/contacts",
+        templateUrl: "app/contacts/contacts.html",
+        controller: 'ContactCtrl',
+        data: {
+          pageTitle: 'Example view'
+        }
+      })
       .state('shoppingCart', {
         url: "/cart",
         templateUrl: "app/shoppingCart/shoppingCart.html",

@@ -2,7 +2,8 @@
   'use strict ';
   angular.module('fruitWorld.services', [])
     .factory('fruitWorldAPIService', ['$resource', '$http', function($resource, $http) {
-      var apiUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      // var apiUrl = "http://fruitworldwebapi.azurewebsites.net/api/";
+      var apiUrl = "http://localhost:64328/api/";
       return $resource(apiUrl + ':section/:id', {
         id: '@_id'
       }, {

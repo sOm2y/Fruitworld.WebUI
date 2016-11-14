@@ -1,111 +1,147 @@
 <div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row">
-    <div class="col-lg-12"></div>
-  </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="ibox">
-        <div class="ibox-title">Vendor List</div>
-        <div class="ibox-content">
-          <!-- grid element -->
-          <kendo-grid options="mainGridOptions">
-          </kendo-grid>
-        </div>
-
-        <!-- Vendor Popup Template -->
-        <script type="text/x-kendo-template" id="vendorPopupTemplate">
-          <ul class="fieldlist">
-            <!-- textbox editor for field: contactId -->
-            <li>
-              <label for="contactId" class="required">Vendor ID</label>
-            </li>
-            <li><select kendo-combo-box
-              id="contactId"
-              k-data-text-field="'contactId'"
-              k-data-value-field="'contactId'"
-              k-filter="'contains'"
-              k-auto-bind="false"
-              k-min-length="3"
-              k-placeholder="Mobile Number"
-              k-data-source="contactDataSource"
-              ng-model="dataItem.contactId"
-              required style="width: 100%;"></select>
-                <span class="k-invalid-msg" data-for="contactId"></span>
-              </li>
-              <!-- textbox editor for field: name -->
-              <li>
-                <label for="name" class="required">Vendor Name</label>
-              </li>
-              <li><input type="text" id="name" class="k-input k-textbox" placeholder="Vendor name" ng-model="dataItem.name" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="name"></span>
-              </li>
-              <!-- textbox editor for field: title -->
-              <li>
-                <label for="title" class="required">Vendor ID</label>
-              </li>
-              <li><select kendo-drop-down-list
-                id="title"
-                k-data-text-field="'title'"
-                k-data-value-field="'title'"
-                k-filter="'contains'"
-                k-data-source="titleDataSource"
-                ng-model="dataItem.title"
-                required style="width: 100%;"></select>
-                <span class="k-invalid-msg" data-for="title"></span>
-              </li>
-              <!-- textbox editor for field: firstName -->
-              <li>
-                <label for="firstName" class="required">First Name</label>
-              </li>
-              <li><input type="text" id="firstName" class="k-input k-textbox" placeholder="First name" ng-model="dataItem.firstName" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="firstName"></span>
-              </li>
-              <!-- textbox editor for field: middleName -->
-              <li>
-                <label for="middleName">Middle Name</label>
-              </li>
-              <li><input type="text" id="middleName" class="k-input k-textbox" placeholder="Middle name" ng-model="dataItem.middleName" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="middleName"></span>
-              </li>
-              <!-- textbox editor for field: lastName -->
-              <li>
-                <label for="lastName" class="required">Last Name</label>
-              </li>
-              <li><input type="text" id="lastName" class="k-input k-textbox" placeholder="Last name" ng-model="dataItem.lastName" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="lastName"></span>
-              </li>
-              <!-- textbox editor for field: phone -->
-              <li>
-                <label for="phone" class="required">Phone</label>
-              </li>
-              <li><input type="tel" id="phone" class="k-input k-textbox" placeholder="Phone number" ng-model="dataItem.phone" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="phone"></span>
-              </li>
-              <!-- textbox editor for field: company -->
-              <li>
-                <label for="company" class="required">Company</label>
-              </li>
-              <li><input type="text" id="company" class="k-input k-textbox" placeholder="Company name" ng-model="dataItem.company" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="company"></span>
-              </li>
-              <!-- textbox editor for field: type -->
-              <li>
-                <label for="type" class="required">Type</label>
-              </li>
-              <li><input type="text" id="type" class="k-input k-textbox" placeholder="Supplier" ng-model="dataItem.type" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="type"></span>
-              </li>
-              <!-- textbox editor for field: vipLevel -->
-              <li>
-                <label for="vipLevel" class="required">Level</label>
-              </li>
-              <li><input kendo-numeric-text-box id="vipLevel" data-format="n" data-min="0" data-max "10" ng-model="dataItem.vipLevel" required style="width: 100%;">
-                <span class="k-invalid-msg" data-for="vipLevel"></span>
-              </li>
-          </ul>
-        </script>
-      </div>
+    <div class="row">
+        <div class="col-lg-12"></div>
     </div>
-  </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">Vendor List</div>
+                <div class="ibox-content">
+                    <!-- grid element -->
+                    <kendo-grid options="mainGridOptions">
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- Vendor Popup Template -->
+<script type="text/x-kendo-template" id="vendorPopupTemplate">
+    <ul class="fieldlist">
+        <!-- textbox editor for field: contactId -->
+        <li>
+            <label for="contactId" class="required">Vendor ID</label>
+        </li>
+        <li>
+            <input type="text" id="contactId" class="k-input k-textbox" placeholder="Mobile Number" data-bind="value: mobile" required style="width: 100%;">
+            <span class="k-invalid-msg" data-for="mobile"></span>
+        </li>
+        <!-- textbox editor for field: name -->
+        <li>
+            <label for="name" class="required">Vendor Name</label>
+        </li>
+        <li>
+            <input type="text" id="name" class="k-input k-textbox" placeholder="Vendor name" data-bind="value: name" required style="width: 100%;">
+            <span class="k-invalid-msg" data-for="name"></span>
+        </li>
+        <!-- textbox editor for field: title -->
+        <li>
+            <label for="vendorTitle">Title</label>
+        </li>
+        <li>
+            <input type="text" id="vendorTitle" class="k-input k-textbox" placeholder="Title" data-bind="value: title" required style="width: 100%;">
+            <span class="k-invalid-msg" data-for="vendorTitle"></span>
+        </li>
+        <!-- textbox editor for field: firstName -->
+        <li>
+            <label for="firstName" class="required">First Name</label>
+        </li>
+        <li>
+            <input type="text" id="firstName" class="k-input k-textbox" placeholder="First name" data-bind="value: firstName" required style="width: 100%;">
+            <span class="k-invalid-msg" data-for="firstName"></span>
+        </li>
+        <!-- textbox editor for field: middleName -->
+        <li>
+            <label for="middleName">Middle Name (Optional)</label>
+        </li>
+        <li>
+            <input type="text" id="middleName" class="k-input k-textbox" placeholder="Middle name" data-bind="value: middleName" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="middleName"></span>
+        </li>
+        <!-- textbox editor for field: lastName -->
+        <li>
+            <label for="lastName" class="required">Last Name</label>
+        </li>
+        <li>
+            <input type="text" id="lastName" class="k-input k-textbox" placeholder="Last name" data-bind="value: lastName" required style="width: 100%;">
+            <span class="k-invalid-msg" data-for="lastName"></span>
+        </li>
+        <!-- textbox editor for field: jobTitle -->
+        <li>
+            <label for="jobTitle">Job Title (Optional)</label>
+        </li>
+        <li>
+            <input type="text" id="jobTitle" class="k-input k-textbox" placeholder="Job Title" data-bind="value: jobTitle" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="jobTitle"></span>
+        </li>
+        <!-- textbox editor for field: phone -->
+        <li>
+            <label for="phone">Phone (Optional)</label>
+        </li>
+        <li>
+            <input type="tel" id="phone" class="k-input k-textbox" placeholder="Phone number" data-bind="value: phone" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="phone"></span>
+        </li>
+        <!-- textbox editor for field: company -->
+        <li>
+            <label for="company" class="required">Company</label>
+        </li>
+        <li>
+            <input type="text" id="company" class="k-input k-textbox" placeholder="Company name" data-bind="value: company" required style="width: 100%;">
+            <span class="k-invalid-msg" data-for="company"></span>
+        </li>
+        <!-- textbox editor for field: type -->
+        <li>
+            <label for="type" class="required">Type</label>
+        </li>
+        <li>
+            <input type="text" id="type" class="k-input k-textbox" placeholder="Supplier" data-bind="value: type" required style="width: 100%;">
+            <span class="k-invalid-msg" data-for="type"></span>
+        </li>
+        <!-- textbox editor for field: active -->
+        <li>
+            <input type="checkbox" id="active" class="k-checkbox" checked="checked" data-bind="value: active">
+            <label class="k-checkbox-label" for="active">Active</label>
+        </li>
+        <li>
+            <!-- textbox editor for field: street -->
+            <label for="vendorStreet" class="required">Street</label>
+        </li>
+        <li>
+            <input type="text" id="vendorStreet" class="k-input k-textbox" placeholder="Street" required data-bind="value: street" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="vendorStreet"></span>
+        </li>
+        <li>
+            <!-- textbox editor for field: city -->
+            <label for="vendorCity" class="required">City</label>
+        </li>
+        <li>
+            <input type="text" id="vendorCity" class="k-input k-textbox" placeholder="City" required data-bind="value: city" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="vendorCity"></span>
+        </li>
+        <li>
+            <!-- textbox editor for field: state -->
+            <label for="vendorState" class="required">State</label>
+        </li>
+        <li>
+            <input type="text" id="vendorState" class="k-input k-textbox" placeholder="State" required data-bind="value: state" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="vendorState"></span>
+        </li>
+        <li>
+            <!-- textbox editor for field: country -->
+            <label for="vendorCountry" class="required">Country</label>
+        </li>
+        <li>
+            <input type="text" id="vendorCountry" class="k-input k-textbox" placeholder="Country" required data-bind="value: country" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="vendorCountry"></span>
+        </li>
+        <li>
+            <!-- textbox editor for field: postCode -->
+            <label for="vendorPostCode" class="required">Post Code</label>
+        </li>
+        <li>
+            <input type="text" id="vendorPostCode" class="k-input k-textbox" placeholder="Post Code" required data-bind="value: postCode" style="width: 100%;">
+            <span class="k-invalid-msg" data-for="vendorPostCode"></span>
+        </li>
+    </ul>
+</script>
